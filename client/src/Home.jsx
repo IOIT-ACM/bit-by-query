@@ -21,6 +21,13 @@ function Home() {
   const [sqlError, setSqlError] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [solvedProblems, setSolvedProblems] = useState([]);
+  const [currentTime, setCurrentTime] = useState(() => new Date().getTime());
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date().getTime());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const isMobile = useScreenSize();
 
@@ -129,7 +136,6 @@ function Home() {
     return <MobileWarning />;
   }
 
-  const currentTime = new Date().getTime();
   if (currentTime > endTime) {
     return <Navigate to='/countdown' replace />;
   }
