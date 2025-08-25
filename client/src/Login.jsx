@@ -120,11 +120,6 @@ function Login() {
             <p className="text-center text-gray-400">
               Difficulties logging in? Contact team members.
             </p>
-            <p className="text-center text-gray-400">
-              <span className="text-green-400">Dummy Credentials:</span>
-              <br />
-              ACM ID: <strong>test</strong>, Pass: <strong>123</strong>
-            </p>
           </form>
         </div>
       </div>
