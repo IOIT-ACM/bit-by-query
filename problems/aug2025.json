@@ -316,7 +316,7 @@
 	{
 		"id": 7,
 		"title": "Find Courses Without Instructor",
-		"description": "Write a query to retrieve course names with NULL instructor.",
+		"description": "Write a query to retrieve course names with NULL instructor from the `courses` table.",
 		"marks": 5,
 		"schema": "CREATE TABLE courses (id INTEGER PRIMARY KEY AUTOINCREMENT, course_name TEXT, instructor TEXT);",
 		"testCases": [
@@ -728,7 +728,7 @@
 	{
 		"id": 16,
 		"title": "Highest and Lowest Salary per Department",
-		"description": "Write a query on the `employees` table to find the highest and lowest salary in each department. Return department, max_salary, and min_salary.",
+		"description": "Write a query on the `employees` table to find the highest and lowest salary in each department",
 		"schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, employee_name TEXT, department TEXT, salary INTEGER);",
 		"marks": 6,
 		"testCases": [
@@ -858,7 +858,7 @@
 	{
 		"id": 19,
 		"title": "Average Order Value per Customer",
-		"description": "Write a query on the `orders` table to calculate the average order value for each customer. Return customer and avg_order_value, rounded to 2 decimals.",
+		"description": "Write a query on the `orders` table to calculate the average order value for each customer",
 		"schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount INTEGER);",
 		"marks": 6,
 		"testCases": [
@@ -909,7 +909,7 @@
 	{
 		"id": 20,
 		"title": "Employees Without Managers",
-		"description": "Assume each employee may have a manager. Write a query on the `employees` table to find employees who do not have a manager assigned. Return employee_name and department.",
+		"description": "Assume each employee may have a manager. Write a query on the `employees` table to find employees who do not have a manager assigned",
 		"schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, employee_name TEXT, department TEXT, manager_id INTEGER);",
 		"marks": 6,
 		"testCases": [
@@ -1093,7 +1093,7 @@
 	{
 		"id": 24,
 		"title": "Running Total of Daily Sales",
-		"description": "Write a query on the `daily_sales` table to calculate a running total of sales. Return sale_date, daily_amount, and running_total.",
+		"description": "Write a query on the `daily_sales` table to calculate a running total of sales.",
 		"marks": 6,
 		"schema": "CREATE TABLE daily_sales (id INTEGER PRIMARY KEY AUTOINCREMENT, sale_date DATE, daily_amount DECIMAL(8,2));",
 		"testCases": [
@@ -2556,7 +2556,7 @@
 	{
 		"id": 57,
 		"title": "Update Model Performance",
-		"description": "Write a query to update the accuracy of models trained on the 'Iris Dataset' by adding 0.05 to their existing accuracy.",
+		"description": "Write a query to update the accuracy of models trained on the 'Iris Dataset' by adding 0.05 to their existing accuracy in the table `ml_models`.",
 		"schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
 		"testCases": [
 			{
@@ -2592,7 +2592,7 @@
 	{
 		"id": 58,
 		"title": "Models with High Performance Across Datasets",
-		"description": "Write a query to find models with accuracy greater than 0.85 and group them by `dataset_used`. Return the dataset and the count of such models for each dataset.",
+		"description": "Write a query to find models with accuracy greater than 0.85 and group them by `dataset_used`.",
 		"schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
 		"testCases": [
 			{

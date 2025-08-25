@@ -44,7 +44,6 @@ const Sidebar = ({
 
       {problemDetails && (
         <div className='mt-10'>
-          <h2 className='text-2xl'>Problem Details</h2>
           <p className='italic text-xs'>
             Note: Please use <code>SELECT * from TABLE_NAME</code> to view the
             schema.
