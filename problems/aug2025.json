@@ -4183,5 +4183,414 @@
 				]
 			}
 		]
+	},
+	{
+		"id": 91,
+		"title": "Top Performing Athletes",
+		"description": "Write a query to find all athletes with scores above 75 from the `athletes` table.",
+		"schema": "CREATE TABLE athletes (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, score INTEGER);",
+		"testCases": [
+			{
+				"id": 1,
+				"sampleData": "INSERT INTO athletes (name, score) VALUES ('Michael', 82), ('Sarah', 89), ('John', 68), ('Emma', 91);",
+				"expectedOutput": [
+					{
+						"name": "Emma",
+						"score": 91
+					},
+					{
+						"name": "Michael",
+						"score": 82
+					},
+					{
+						"name": "Sarah",
+						"score": 89
+					}
+				]
+			},
+			{
+				"id": 2,
+				"sampleData": "INSERT INTO athletes (name, score) VALUES ('David', 78), ('Lisa', 73), ('Tom', 85), ('Anna', 70);",
+				"expectedOutput": [
+					{
+						"name": "David",
+						"score": 78
+					},
+					{
+						"name": "Tom",
+						"score": 85
+					}
+				]
+			}
+		],
+		"marks": 8
+	},
+	{
+		"id": 92,
+		"title": "Lowest Inventory Items",
+		"description": "Write a query to find the names of products with the three lowest stock quantities, ordered by stock ascending from the `inventory` table.",
+		"schema": "CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, product TEXT, stock INTEGER);",
+		"testCases": [
+			{
+				"id": 1,
+				"sampleData": "INSERT INTO inventory (product, stock) VALUES ('Laptop', 15), ('Mouse', 8), ('Keyboard', 12), ('Monitor', 3);",
+				"expectedOutput": [
+					{
+						"product": "Monitor",
+						"stock": 3
+					},
+					{
+						"product": "Mouse",
+						"stock": 8
+					},
+					{
+						"product": "Keyboard",
+						"stock": 12
+					}
+				]
+			},
+			{
+				"id": 2,
+				"sampleData": "INSERT INTO inventory (product, stock) VALUES ('Printer', 20), ('Scanner', 6), ('Webcam', 4), ('Headset', 7);",
+				"expectedOutput": [
+					{
+						"product": "Webcam",
+						"stock": 4
+					},
+					{
+						"product": "Scanner",
+						"stock": 6
+					},
+					{
+						"product": "Headset",
+						"stock": 7
+					}
+				]
+			}
+		],
+		"marks": 8
+	},
+	{
+		"id": 93,
+		"title": "High Value Transactions",
+		"description": "Write a query to count how many transactions have an amount greater than 500 from the `transactions` table.",
+		"schema": "CREATE TABLE transactions (id INTEGER PRIMARY KEY AUTOINCREMENT, account TEXT, amount REAL);",
+		"testCases": [
+			{
+				"id": 1,
+				"sampleData": "INSERT INTO transactions (account, amount) VALUES ('ACC001', 750.25), ('ACC002', 300.00), ('ACC003', 850.00), ('ACC004', 450.00);",
+				"expectedOutput": [
+					{
+						"high_value_transactions": 2
+					}
+				]
+			},
+			{
+				"id": 2,
+				"sampleData": "INSERT INTO transactions (account, amount) VALUES ('ACC005', 900.00), ('ACC006', 400.00), ('ACC007', 625.00);",
+				"expectedOutput": [
+					{
+						"high_value_transactions": 2
+					}
+				]
+			}
+		],
+		"marks": 8
+	},
+	{
+		"id": 94,
+		"title": "Average Transaction Value by Account",
+		"description": "Write a query to calculate the average transaction amount for each account from the `transactions` table, only showing accounts with more than one transaction.",
+		"schema": "CREATE TABLE transactions (id INTEGER PRIMARY KEY AUTOINCREMENT, account TEXT, amount REAL);",
+		"testCases": [
+			{
+				"id": 1,
+				"sampleData": "INSERT INTO transactions (account, amount) VALUES ('ACC001', 500.50), ('ACC001', 350.00), ('ACC002', 600.00), ('ACC003', 450.00), ('ACC003', 750.00);",
+				"expectedOutput": [
+					{
+						"account": "ACC001",
+						"avg_amount": 425.25
+					},
+					{
+						"account": "ACC003",
+						"avg_amount": 600.0
+					}
+				]
+			},
+			{
+				"id": 2,
+				"sampleData": "INSERT INTO transactions (account, amount) VALUES ('ACC004', 850.00), ('ACC005', 380.00), ('ACC005', 420.00), ('ACC005', 500.00);",
+				"expectedOutput": [
+					{
+						"account": "ACC005",
+						"avg_amount": 433.33
+					}
+				]
+			}
+		],
+		"marks": 8
+	},
+	{
+		"id": 95,
+		"title": "Team Performance Tiers",
+		"description": "Write a query to classify teams into performance tiers based on their average player ratings: 'Excellent' (>90), 'Good' (75-90), and 'Average' (<75) from the `players` table.",
+		"schema": "CREATE TABLE players (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, team TEXT, rating INTEGER);",
+		"testCases": [
+			{
+				"id": 1,
+				"sampleData": "INSERT INTO players (name, team, rating) VALUES ('Alex', 'Tigers', 85), ('Ben', 'Lions', 92), ('Chris', 'Tigers', 78), ('Dan', 'Lions', 88), ('Eva', 'Lions', 95), ('Frank', 'Eagles', 65);",
+				"expectedOutput": [
+					{
+						"team": "Eagles",
+						"performance_tier": "Average"
+					},
+					{
+						"team": "Lions",
+						"performance_tier": "Excellent"
+					},
+					{
+						"team": "Tigers",
+						"performance_tier": "Good"
+					}
+				]
+			},
+			{
+				"id": 2,
+				"sampleData": "INSERT INTO players (name, team, rating) VALUES ('Grace', 'Wolves', 89), ('Henry', 'Wolves', 91), ('Ivy', 'Hawks', 87), ('Jack', 'Hawks', 93), ('Kate', 'Hawks', 85);",
+				"expectedOutput": [
+					{
+						"team": "Hawks",
+						"performance_tier": "Good"
+					},
+					{
+						"team": "Wolves",
+						"performance_tier": "Good"
+					}
+				]
+			}
+		],
+		"marks": 10
+	},
+	{
+		"id": 96,
+		"title": "Score Distribution",
+		"description": "Write a query to show the number of athletes in each score range: 'Elite' (90-100), 'Advanced' (80-89), 'Intermediate' (70-79), 'Beginner' (60-69), 'Novice' (<60) from the `athletes` table.",
+		"schema": "CREATE TABLE athletes (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, score INTEGER);",
+		"testCases": [
+			{
+				"id": 1,
+				"sampleData": "INSERT INTO athletes (name, score) VALUES ('Alice', 83), ('Bob', 94), ('Charlie', 76), ('David', 52);",
+				"expectedOutput": [
+					{
+						"score_range": "Advanced",
+						"count": 1
+					},
+					{
+						"score_range": "Elite",
+						"count": 1
+					},
+					{
+						"score_range": "Intermediate",
+						"count": 1
+					},
+					{
+						"score_range": "Novice",
+						"count": 1
+					}
+				]
+			},
+			{
+				"id": 2,
+				"sampleData": "INSERT INTO athletes (name, score) VALUES ('Eva', 96), ('Frank', 92), ('Grace', 84), ('Henry', 67);",
+				"expectedOutput": [
+					{
+						"score_range": "Elite",
+						"count": 2
+					},
+					{
+						"score_range": "Advanced",
+						"count": 1
+					},
+					{
+						"score_range": "Beginner",
+						"count": 1
+					}
+				]
+			}
+		],
+		"marks": 10
+	},
+	{
+		"id": 97,
+		"title": "VIP Customer Analysis",
+		"description": "Write a query to identify customers whose average purchase amount is at least 60% higher than the overall average purchase amount from the `purchases` table.",
+		"schema": "CREATE TABLE purchases (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
+		"testCases": [
+			{
+				"id": 1,
+				"sampleData": "INSERT INTO purchases (customer, amount) VALUES ('Alice', 1800.50), ('Alice', 900.00), ('Bob', 200.00), ('Charlie', 250.00);",
+				"expectedOutput": [
+					{
+						"customer": "Alice",
+						"avg_purchase_value": 1350.25
+					}
+				]
+			},
+			{
+				"id": 2,
+				"sampleData": "INSERT INTO purchases (customer, amount) VALUES ('David', 1200.00), ('Eve', 300.00), ('Eve', 280.00), ('Frank', 1100.00);",
+				"expectedOutput": [
+					{
+						"customer": "David",
+						"avg_purchase_value": 1200.0
+					}
+				]
+			}
+		],
+		"marks": 10
+	},
+	{
+		"id": 98,
+		"title": "Team Skill Diversity",
+		"description": "Write a query to find teams that have players with at least 3 different skill levels, ordered by skill range (max - min) from the `players` table.",
+		"schema": "CREATE TABLE players (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, team TEXT, skill_level INTEGER);",
+		"testCases": [
+			{
+				"id": 1,
+				"sampleData": "INSERT INTO players (name, team, skill_level) VALUES ('Alice', 'Rockets', 75), ('Bob', 'Rockets', 82), ('Charlie', 'Rockets', 90), ('Dave', 'Sharks', 85), ('Eva', 'Sharks', 85);",
+				"expectedOutput": [
+					{
+						"team": "Rockets",
+						"skill_range": 15,
+						"unique_skill_levels": 3
+					}
+				]
+			},
+			{
+				"id": 2,
+				"sampleData": "INSERT INTO players (name, team, skill_level) VALUES ('Alice', 'Phoenix', 70), ('Bob', 'Phoenix', 88), ('Charlie', 'Phoenix', 95), ('Dave', 'Phoenix', 81), ('Eva', 'Storm', 77);",
+				"expectedOutput": [
+					{
+						"team": "Phoenix",
+						"skill_range": 25,
+						"unique_skill_levels": 4
+					}
+				]
+			}
+		],
+		"marks": 10
+	},
+	{
+		"id": 99,
+		"title": "Update Customer Purchase Status",
+		"description": "Write an UPDATE query to set the status to 'VIP' for customers who have made more than 3 purchases in the `customers` table.",
+		"schema": "CREATE TABLE customers (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, purchase_count INTEGER, status TEXT);",
+		"testCases": [
+			{
+				"id": 1,
+				"sampleData": "INSERT INTO customers (name, purchase_count, status) VALUES ('Alice', 5, 'Regular'), ('Bob', 2, 'Regular'), ('Charlie', 4, 'Regular'), ('Diana', 1, 'Regular');",
+				"expectedOutput": [
+					{
+						"name": "Alice",
+						"purchase_count": 5,
+						"status": "VIP"
+					},
+					{
+						"name": "Bob",
+						"purchase_count": 2,
+						"status": "Regular"
+					},
+					{
+						"name": "Charlie",
+						"purchase_count": 4,
+						"status": "VIP"
+					},
+					{
+						"name": "Diana",
+						"purchase_count": 1,
+						"status": "Regular"
+					}
+				]
+			},
+			{
+				"id": 2,
+				"sampleData": "INSERT INTO customers (name, purchase_count, status) VALUES ('Eva', 6, 'Regular'), ('Frank', 3, 'Regular'), ('Grace', 7, 'Regular');",
+				"expectedOutput": [
+					{
+						"name": "Eva",
+						"purchase_count": 6,
+						"status": "VIP"
+					},
+					{
+						"name": "Frank",
+						"purchase_count": 3,
+						"status": "Regular"
+					},
+					{
+						"name": "Grace",
+						"purchase_count": 7,
+						"status": "VIP"
+					}
+				]
+			}
+		],
+		"marks": 10
+	},
+	{
+		"id": 100,
+		"title": "Insert New Product Records",
+		"description": "Write an INSERT query to add multiple new products to the `products` table with their category, price, and stock quantity.",
+		"schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT, price REAL, stock INTEGER);",
+		"testCases": [
+			{
+				"id": 1,
+				"sampleData": "INSERT INTO products (name, category, price, stock) VALUES ('Laptop', 'Electronics', 999.99, 10);",
+				"expectedOutput": [
+					{
+						"name": "Laptop",
+						"category": "Electronics",
+						"price": 999.99,
+						"stock": 10
+					},
+					{
+						"name": "Wireless Mouse",
+						"category": "Electronics",
+						"price": 29.99,
+						"stock": 50
+					},
+					{
+						"name": "Water Bottle",
+						"category": "Accessories",
+						"price": 19.99,
+						"stock": 100
+					}
+				]
+			},
+			{
+				"id": 2,
+				"sampleData": "INSERT INTO products (name, category, price, stock) VALUES ('Smartphone', 'Electronics', 599.99, 20);",
+				"expectedOutput": [
+					{
+						"name": "Smartphone",
+						"category": "Electronics",
+						"price": 599.99,
+						"stock": 20
+					},
+					{
+						"name": "Wireless Mouse",
+						"category": "Electronics",
+						"price": 29.99,
+						"stock": 50
+					},
+					{
+						"name": "Water Bottle",
+						"category": "Accessories",
+						"price": 19.99,
+						"stock": 100
+					}
+				]
+			}
+		],
+		"marks": 10
 	}
 ]
