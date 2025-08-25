@@ -1576,28 +1576,81 @@
   },
   {
     "id": 34,
-    "title": "Track Hardware Component Availability",
-    "description": "Write a query to retrieve the count of available hardware components in the `hardware_inventory` table.",
-    "schema": "CREATE TABLE hardware_inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, component_name TEXT, availability_status TEXT);",
+    "title": "Product Sales Rankings",
+    "description": "Rank products by their total sales amount and show only the top 3 products in each category from the `sales` table.",
+    "schema": "CREATE TABLE sales (id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, category TEXT, sale_amount REAL);",
     "testCases": [
       {
         "id": 1,
-        "sampleData": "INSERT INTO hardware_inventory (component_name, availability_status) VALUES ('CPU', 'available'), ('GPU', 'out_of_stock'), ('RAM', 'available');",
+        "sampleData": "INSERT INTO sales (product_name, category, sale_amount) VALUES ('Laptop', 'Electronics', 2000), ('Phone', 'Electronics', 1500), ('Tablet', 'Electronics', 1000), ('Desk', 'Furniture', 500), ('Chair', 'Furniture', 300), ('Lamp', 'Furniture', 200);",
         "expectedOutput": [
           {
-            "component_name": "CPU",
-            "count": 1
+            "category": "Furniture",
+            "product_name": "Desk",
+            "total_sales": 500
           },
           {
-            "component_name": "RAM",
-            "count": 1
+            "category": "Furniture",
+            "product_name": "Chair",
+            "total_sales": 300
+          },
+          {
+            "category": "Furniture",
+            "product_name": "Lamp",
+            "total_sales": 200
+          },
+          {
+            "category": "Electronics",
+            "product_name": "Laptop",
+            "total_sales": 2000
+          },
+          {
+            "category": "Electronics",
+            "product_name": "Phone",
+            "total_sales": 1500
+          },
+          {
+            "category": "Electronics",
+            "product_name": "Tablet",
+            "total_sales": 1000
           }
         ]
       },
       {
         "id": 2,
-        "sampleData": "INSERT INTO hardware_inventory (component_name, availability_status) VALUES ('CPU', 'out_of_stock'), ('GPU', 'out_of_stock');",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO sales (product_name, category, sale_amount) VALUES ('Book', 'Media', 50), ('Movie', 'Media', 30), ('Game', 'Media', 60), ('Headphones', 'Electronics', 100), ('Speaker', 'Electronics', 150), ('Monitor', 'Electronics', 800);",
+        "expectedOutput": [
+          {
+            "category": "Media",
+            "product_name": "Book",
+            "total_sales": 50
+          },
+          {
+            "category": "Media",
+            "product_name": "Movie",
+            "total_sales": 30
+          },
+          {
+            "category": "Media",
+            "product_name": "Game",
+            "total_sales": 60
+          },
+          {
+            "category": "Electronics",
+            "product_name": "Headphones",
+            "total_sales": 100
+          },
+          {
+            "category": "Electronics",
+            "product_name": "Speaker",
+            "total_sales": 150
+          },
+          {
+            "category": "Electronics",
+            "product_name": "Monitor",
+            "total_sales": 800
+          }
+        ]
       }
     ],
     "marks": 8
@@ -2556,7 +2609,7 @@
   {
     "id": 57,
     "title": "Update Model Performance",
-    "description": "Write a query to update the accuracy of models trained on the 'Iris Dataset' by adding 0.05 to their existing accuracy.",
+    "description": "Write a query to update the accuracy of models trained on the 'Iris Dataset' by adding 0.05 to their existing accuracy in the table `ml_models`",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
     "testCases": [
       {
@@ -2592,7 +2645,7 @@
   {
     "id": 58,
     "title": "Models with High Performance Across Datasets",
-    "description": "Write a query to find models with accuracy greater than 0.85 and group them by `dataset_used`. Return the dataset and the count of such models for each dataset.",
+    "description": "Write a query to find models with accuracy greater than 0.85 and group them by `dataset_used`. Return the dataset and the count of such models for each dataset from the table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
     "testCases": [
       {
@@ -2955,38 +3008,48 @@
   },
   {
     "id": 65,
-    "title": "Find Teachers with No Assigned Class",
-    "description": "Write a query on the `teachers` and `classes` tables to retrieve teacher(s) who have not been assigned to any class, ordered alphabetically.",
-    "marks": 5,
-    "schema": "CREATE TABLE teachers (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT); CREATE TABLE classes (id INTEGER PRIMARY KEY AUTOINCREMENT, teacher_id INTEGER);",
+    "title": "Department Headcount Growth",
+    "description": "Write a query on the `employee_history` table to calculate headcount growth by department between two periods. Compare 'Q1 2024' vs 'Q4 2023'. Return department, q4_2023_count, q1_2024_count, growth_count, growth_percentage (rounded to 2 decimal places). Order by growth_percentage DESC.",
+    "marks": 8,
+    "schema": "CREATE TABLE employee_history (id INTEGER PRIMARY KEY AUTOINCREMENT, employee_id INTEGER, department TEXT, period TEXT, status TEXT);",
     "testCases": [
       {
         "id": 1,
-        "sampleData": "INSERT INTO teachers (name) VALUES ('Alice'), ('Bob'); INSERT INTO classes (teacher_id) VALUES (1);",
+        "sampleData": "INSERT INTO employee_history (employee_id, department, period, status) VALUES (1,'IT','Q4 2023','Active'),(2,'IT','Q4 2023','Active'),(1,'IT','Q1 2024','Active'),(2,'IT','Q1 2024','Active'),(3,'IT','Q1 2024','Active'),(4,'HR','Q4 2023','Active'),(4,'HR','Q1 2024','Active'),(5,'HR','Q1 2024','Active'),(6,'HR','Q1 2024','Active');",
         "expectedOutput": [
           {
-            "name": "Bob"
+            "department": "HR",
+            "q4_2023_count": 1,
+            "q1_2024_count": 3,
+            "growth_count": 2,
+            "growth_percentage": 200
+          },
+          {
+            "department": "IT",
+            "q4_2023_count": 2,
+            "q1_2024_count": 3,
+            "growth_count": 1,
+            "growth_percentage": 50
           }
         ]
       },
       {
         "id": 2,
-        "sampleData": "INSERT INTO teachers (name) VALUES ('Charlie'), ('David'); -- no classes",
+        "sampleData": "INSERT INTO employee_history (employee_id, department, period, status) VALUES (7,'Finance','Q4 2023','Active'),(8,'Finance','Q4 2023','Active'),(9,'Finance','Q4 2023','Active'),(7,'Finance','Q1 2024','Active'),(8,'Finance','Q1 2024','Active'),(9,'Finance','Q1 2024','Active'),(10,'Finance','Q1 2024','Active'),(11,'Sales','Q4 2023','Active'),(12,'Sales','Q4 2023','Active'),(13,'Sales','Q4 2023','Active'),(14,'Sales','Q4 2023','Active'),(11,'Sales','Q1 2024','Active'),(12,'Sales','Q1 2024','Active');",
         "expectedOutput": [
           {
-            "name": "Charlie"
+            "department": "Finance",
+            "q4_2023_count": 3,
+            "q1_2024_count": 4,
+            "growth_count": 1,
+            "growth_percentage": 33.33
           },
           {
-            "name": "David"
-          }
-        ]
-      },
-      {
-        "id": 3,
-        "sampleData": "INSERT INTO teachers (name) VALUES ('Emma'), ('Frank'); INSERT INTO classes (teacher_id) VALUES (2);",
-        "expectedOutput": [
-          {
-            "name": "Emma"
+            "department": "Sales",
+            "q4_2023_count": 4,
+            "q1_2024_count": 2,
+            "growth_count": -2,
+            "growth_percentage": -50
           }
         ]
       }
@@ -3030,8 +3093,8 @@
   },
   {
     "id": 67,
-    "title": "Longest Consecutive Login Streak with Gaps",
-    "description": "Write a query on the `user_logins` table to find the longest consecutive login streak for each user, where a streak is only broken if there's a gap of more than 2 days between login dates. Return user_id, max_streak_length, streak_start_date, streak_end_date. Only include users with at least one streak of 3+ days.",
+    "title": "Longest Login Streak with Gaps",
+    "description": "Write a query on the `user_logins` table to find the longest login streak for each user. A streak is a series of consecutive logins where the gap between any two successive logins is no more than 2 days (i.e., a gap of 3 or more days breaks the streak). The streak length is defined as the total number of logins in that period.\n\nReturn `user_id`, the `max_streak_length` (as the count of logins), the `streak_start_date`, and `streak_end_date` for each user's longest streak. Only include users whose longest streak consists of at least 2 logins.",
     "marks": 10,
     "schema": "CREATE TABLE user_logins (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, login_date DATE);",
     "testCases": [
@@ -3059,8 +3122,8 @@
         "expectedOutput": [
           {
             "user_id": 3,
-            "max_streak_length": 5,
-            "streak_start_date": "2024-02-01",
+            "max_streak_length": 3,
+            "streak_start_date": "2024-02-05",
             "streak_end_date": "2024-02-07"
           },
           {
@@ -3076,9 +3139,15 @@
         "sampleData": "INSERT INTO user_logins (user_id, login_date) VALUES (5,'2024-03-01'),(5,'2024-03-04'),(5,'2024-03-05'),(6,'2024-03-01'),(6,'2024-03-02'),(6,'2024-03-05'),(6,'2024-03-06'),(6,'2024-03-07'),(6,'2024-03-08');",
         "expectedOutput": [
           {
+            "user_id": 5,
+            "max_streak_length": 2,
+            "streak_start_date": "2024-03-04",
+            "streak_end_date": "2024-03-05"
+          },
+          {
             "user_id": 6,
-            "max_streak_length": 6,
-            "streak_start_date": "2024-03-01",
+            "max_streak_length": 4,
+            "streak_start_date": "2024-03-05",
             "streak_end_date": "2024-03-08"
           }
         ]
@@ -3130,48 +3199,44 @@
   },
   {
     "id": 69,
-    "title": "Inventory Restock Prediction with Seasonality",
-    "description": "Write a query on the `inventory_movements` table to predict when each product will need restocking. Calculate the average daily consumption rate over the last 30 days (by movement_date), then determine estimated days until stock runs out based on current_stock. Only include products with negative net movement (being consumed). Return product_id, current_stock, avg_daily_consumption (rounded to 2 decimal places), estimated_days_until_restock (rounded to 0 decimal places), movement_days_analyzed.",
-    "marks": 10,
-    "schema": "CREATE TABLE inventory_movements (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, movement_date DATE, quantity_change INTEGER, current_stock INTEGER);",
+    "title": "Products Above Category Average Price",
+    "description": "Write a query on the `products` table to find products whose price is above the average price in their category. Return category, product_name, price, category_avg_price (rounded to 2 decimal places). Order by category ASC, price DESC.",
+    "marks": 9,
+    "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, category TEXT, price DECIMAL(8,2));",
     "testCases": [
       {
         "id": 1,
-        "sampleData": "INSERT INTO inventory_movements (product_id, movement_date, quantity_change, current_stock) VALUES (101,'2024-01-01',-5,100),(101,'2024-01-03',-3,97),(101,'2024-01-05',-7,90),(101,'2024-01-08',-4,86),(101,'2024-01-10',-2,84),(102,'2024-01-01',-10,200),(102,'2024-01-02',-8,192),(102,'2024-01-04',-12,180),(102,'2024-01-06',-6,174),(103,'2024-01-01',5,50),(103,'2024-01-03',3,53);",
+        "sampleData": "INSERT INTO products (product_name, category, price) VALUES ('Laptop','Electronics',1200.00),('Mouse','Electronics',25.00),('Keyboard','Electronics',75.00),('Desk','Furniture',300.00),('Chair','Furniture',150.00);",
         "expectedOutput": [
           {
-            "product_id": 101,
-            "current_stock": 84,
-            "avg_daily_consumption": 2.33,
-            "estimated_days_until_restock": 36,
-            "movement_days_analyzed": 9
+            "category": "Electronics",
+            "product_name": "Laptop",
+            "price": 1200.0,
+            "category_avg_price": 433.33
           },
           {
-            "product_id": 102,
-            "current_stock": 174,
-            "avg_daily_consumption": 7.2,
-            "estimated_days_until_restock": 24,
-            "movement_days_analyzed": 5
+            "category": "Furniture",
+            "product_name": "Desk",
+            "price": 300.0,
+            "category_avg_price": 225.0
           }
         ]
       },
       {
         "id": 2,
-        "sampleData": "INSERT INTO inventory_movements (product_id, movement_date, quantity_change, current_stock) VALUES (201,'2024-02-01',-15,300),(201,'2024-02-05',-20,280),(201,'2024-02-10',-10,270),(201,'2024-02-15',-25,245),(201,'2024-02-20',-18,227),(202,'2024-02-01',-8,150),(202,'2024-02-08',-12,138),(202,'2024-02-15',-6,132),(203,'2024-02-01',10,80),(203,'2024-02-10',5,85);",
+        "sampleData": "INSERT INTO products (product_name, category, price) VALUES ('Phone','Electronics',800.00),('Tablet','Electronics',400.00),('Sofa','Furniture',800.00),('Table','Furniture',200.00),('Lamp','Furniture',50.00);",
         "expectedOutput": [
           {
-            "product_id": 201,
-            "current_stock": 227,
-            "avg_daily_consumption": 4.58,
-            "estimated_days_until_restock": 50,
-            "movement_days_analyzed": 19
+            "category": "Electronics",
+            "product_name": "Phone",
+            "price": 800.0,
+            "category_avg_price": 600.0
           },
           {
-            "product_id": 202,
-            "current_stock": 132,
-            "avg_daily_consumption": 1.86,
-            "estimated_days_until_restock": 71,
-            "movement_days_analyzed": 14
+            "category": "Furniture",
+            "product_name": "Sofa",
+            "price": 800.0,
+            "category_avg_price": 350.0
           }
         ]
       }
@@ -3359,7 +3424,7 @@
     "id": 72,
     "title": "Monthly Sales Growth Rate",
     "description": "Write a query on the `monthly_sales` table to calculate the month-over-month growth rate as a percentage. Return month, sales_amount, previous_month_sales, growth_rate_percent (rounded to 2 decimal places). Skip the first month since it has no previous data.",
-    "marks": 8,
+    "marks": 10,
     "schema": "CREATE TABLE monthly_sales (id INTEGER PRIMARY KEY AUTOINCREMENT, month TEXT, sales_amount DECIMAL(10,2));",
     "testCases": [
       {
@@ -3527,17 +3592,12 @@
       },
       {
         "id": 3,
-        "sampleData": "INSERT INTO sales (branch, product, quantity) VALUES ('FL', 'Bag', 6), ('FL', 'Shoes', 6), ('FL', 'Watch', 5);",
+        "sampleData": "INSERT INTO sales (branch, product, quantity) VALUES ('FL', 'Bag', 6), ('FL', 'Shoes',7), ('FL', 'Watch', 5);",
         "expectedOutput": [
           {
             "branch": "FL",
-            "product": "Bag",
-            "max_sold": 6
-          },
-          {
-            "branch": "FL",
             "product": "Shoes",
-            "max_sold": 6
+            "max_sold": 7
           }
         ]
       }
@@ -3697,6 +3757,10 @@
           {
             "name": "Monitor",
             "price": 1200
+          },
+          {
+            "name": "Cable",
+            "price": 50
           }
         ]
       },
@@ -3913,45 +3977,34 @@
   },
   {
     "id": 85,
-    "title": "Find Customers with Minimum Orders",
-    "description": "Write a query on the `customers` and `orders` tables to find customers who have placed the least number of orders.",
-    "marks": 5,
-    "schema": "CREATE TABLE customers (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT); CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_id INTEGER);",
+    "title": "Models with the Lowest Accuracy",
+    "description": "Write a query to retrieve the model(s) with the lowest accuracy from the table `ml_models`.",
+    "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
     "testCases": [
       {
         "id": 1,
-        "sampleData": "INSERT INTO customers (name) VALUES ('Alice'), ('Bob'), ('Charlie'); INSERT INTO orders (customer_id) VALUES (1);",
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Random Forest', 0.91, 'Iris Dataset'), ('SVM', 0.79, 'MNIST Dataset'), ('Logistic Regression', 0.85, 'Spam Dataset');",
         "expectedOutput": [
           {
-            "name": "Bob"
-          },
-          {
-            "name": "Charlie"
+            "model_name": "SVM",
+            "accuracy": 0.79,
+            "dataset_used": "MNIST Dataset"
           }
         ]
       },
       {
         "id": 2,
-        "sampleData": "INSERT INTO customers (name) VALUES ('David'), ('Emma'); INSERT INTO orders (customer_id) VALUES (2);",
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Neural Network', 0.88, 'ImageNet Dataset'), ('KNN', 0.80, 'CIFAR-10'), ('Decision Tree', 0.75, 'MNIST Dataset');",
         "expectedOutput": [
           {
-            "name": "David"
-          }
-        ]
-      },
-      {
-        "id": 3,
-        "sampleData": "INSERT INTO customers (name) VALUES ('Frank'), ('Grace'); -- no orders inserted",
-        "expectedOutput": [
-          {
-            "name": "Frank"
-          },
-          {
-            "name": "Grace"
+            "model_name": "Decision Tree",
+            "accuracy": 0.75,
+            "dataset_used": "MNIST Dataset"
           }
         ]
       }
-    ]
+    ],
+    "marks": 6
   },
   {
     "id": 86,
@@ -4027,64 +4080,40 @@
   },
   {
     "id": 88,
-    "title": "Customer Age Group Analysis",
-    "description": "Write a query on the `customers` table to categorize customers by age groups and calculate average spending per group. Age groups: '18-25', '26-35', '36-45', '46-55', '55+'. Calculate age from birth_date to '2024-01-01'. Return age_group, customer_count, avg_spending (rounded to 2 decimal places). Order by avg_spending DESC.",
-    "marks": 10,
-    "schema": "CREATE TABLE customers (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, birth_date DATE, total_spending DECIMAL(10,2));",
+    "title": "Track Hardware Failures by Component",
+    "description": "Write a query to retrieve the count of hardware failures by component type in the `hardware_failures` table.",
+    "schema": "CREATE TABLE hardware_failures (id INTEGER PRIMARY KEY AUTOINCREMENT, component_name TEXT, failure_type TEXT);",
     "testCases": [
       {
         "id": 1,
-        "sampleData": "INSERT INTO customers (customer_name, birth_date, total_spending) VALUES ('Alice','1995-06-15',2500.00),('Bob','1988-03-22',3200.00),('Carol','1975-11-08',4100.00),('Dave','1992-09-12',1800.00),('Eve','1965-04-30',5200.00);",
+        "sampleData": "INSERT INTO hardware_failures (component_name, failure_type) VALUES ('CPU', 'Overheating'), ('GPU', 'Driver Crash'), ('CPU', 'Overheating');",
         "expectedOutput": [
           {
-            "age_group": "55+",
-            "customer_count": 1,
-            "avg_spending": 5200
+            "component_name": "CPU",
+            "failure_count": 2
           },
           {
-            "age_group": "36-45",
-            "customer_count": 1,
-            "avg_spending": 4100
-          },
-          {
-            "age_group": "26-35",
-            "customer_count": 2,
-            "avg_spending": 2500
-          },
-          {
-            "age_group": "18-25",
-            "customer_count": 1,
-            "avg_spending": 2500
+            "component_name": "GPU",
+            "failure_count": 1
           }
         ]
       },
       {
         "id": 2,
-        "sampleData": "INSERT INTO customers (customer_name, birth_date, total_spending) VALUES ('Frank','1980-07-14',3800.00),('Grace','1998-12-03',1500.00),('Henry','1972-01-25',4500.00),('Ivy','1985-05-18',2900.00);",
+        "sampleData": "INSERT INTO hardware_failures (component_name, failure_type) VALUES ('RAM', 'Memory Leak'), ('CPU', 'Overheating');",
         "expectedOutput": [
           {
-            "age_group": "46-55",
-            "customer_count": 1,
-            "avg_spending": 4500
+            "component_name": "CPU",
+            "failure_count": 1
           },
           {
-            "age_group": "36-45",
-            "customer_count": 1,
-            "avg_spending": 3800
-          },
-          {
-            "age_group": "26-35",
-            "customer_count": 1,
-            "avg_spending": 2900
-          },
-          {
-            "age_group": "18-25",
-            "customer_count": 1,
-            "avg_spending": 1500
+            "component_name": "RAM",
+            "failure_count": 1
           }
         ]
       }
-    ]
+    ],
+    "marks": 8
   },
   {
     "id": 89,
@@ -4098,17 +4127,17 @@
         "sampleData": "INSERT INTO inventory_data (product_name, month, units_sold, ending_inventory) VALUES ('Widget','Jan',100,20),('Widget','Feb',120,25),('Widget','Mar',110,30),('Gadget','Jan',200,80),('Gadget','Feb',180,70),('Gadget','Mar',220,90);",
         "expectedOutput": [
           {
-            "product_name": "Gadget",
-            "units_sold": 600,
-            "average_inventory": 80,
-            "turnover_rate": 7.5,
-            "turnover_category": "High"
-          },
-          {
             "product_name": "Widget",
             "units_sold": 330,
             "average_inventory": 25,
             "turnover_rate": 13.2,
+            "turnover_category": "High"
+          },
+          {
+            "product_name": "Gadget",
+            "units_sold": 600,
+            "average_inventory": 80,
+            "turnover_rate": 7.5,
             "turnover_category": "High"
           }
         ]
