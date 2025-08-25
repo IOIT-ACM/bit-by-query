@@ -134,16 +134,9 @@ function LeaderBoard() {
                 Platform designed and developed by{' '}
                 <a
                   className='text-blue-500 hover:underline'
-                  href='https://github.com/swarooppatilx'
+                  href='https://github.com/ioit-acm'
                 >
-                  Swaroop Patil
-                </a>{' '}
-                with{' '}
-                <a
-                  className='text-blue-500 hover:underline'
-                  href='https://adimail.github.io'
-                >
-                  Aditya Godse
+                  IOIT ACM Web Team
                 </a>
               </p>
             </div>
