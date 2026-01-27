@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "client/dist")));
 
 const problemsDirectory = path.join(__dirname, "problems");
-const problemsFile = path.join(problemsDirectory, "aug2025.json");
+const problemsFile = path.join(problemsDirectory, "jan2026.json");
 
 let problems = [];
 
@@ -260,6 +260,17 @@ app.get("/api/problems/:id", authenticateToken, (req, res) => {
 	res.json(problem);
 });
 
+// Helper function to strip SQL comments
+const stripSqlComments = (sql) => {
+	// Remove multi-line comments /* ... */
+	let result = sql.replace(/\/\*[\s\S]*?\*\//g, "");
+	// Remove single-line comments -- ... (until end of line)
+	result = result.replace(/--.*$/gm, "");
+	// Remove single-line comments # ... (MySQL style, until end of line)
+	result = result.replace(/#.*$/gm, "");
+	return result;
+};
+
 app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
 	const problemId = req.params.id;
 	const { userQuery } = req.body;
@@ -277,8 +288,9 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
 	let allTestCasesPassed = true;
 	const testResults = [];
 
-	// Parse user queries once
-	const queries = userQuery
+	// Strip comments and parse user queries
+	const cleanedQuery = stripSqlComments(userQuery);
+	const queries = cleanedQuery
 		.split(";")
 		.map((q) => q.trim())
 		.filter((q) => q);
@@ -302,12 +314,37 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
 		try {
 			// Set up database for this test case
 			await new Promise((resolve, reject) => {
+				const schemaStatements = parsedSchema
+					.split(";")
+					.map((s) => s.trim())
+					.filter((s) => s);
+				const dataStatements = parsedSampleData
+					.split(";")
+					.map((s) => s.trim())
+					.filter((s) => s);
+				const allStatements = [...schemaStatements, ...dataStatements];
+
+				if (allStatements.length === 0) {
+					resolve();
+					return;
+				}
+
+				let completed = 0;
+				let hasError = false;
+
 				db.serialize(() => {
-					db.run(parsedSchema, (err) => {
-						if (err) reject(err);
-						db.exec(parsedSampleData, (err) => {
-							if (err) reject(err);
-							resolve();
+					allStatements.forEach((stmt) => {
+						db.run(`${stmt};`, (err) => {
+							if (hasError) return;
+							if (err) {
+								hasError = true;
+								reject(err);
+								return;
+							}
+							completed++;
+							if (completed === allStatements.length) {
+								resolve();
+							}
 						});
 					});
 				});
