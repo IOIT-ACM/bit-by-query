@@ -1,4 +1,7 @@
-const startTime = new Date("2025-08-26T13:30:00+05:30");
-const endTime = new Date("2025-08-26T15:30:00+05:30");
+// Time configuration is now managed by TimeContext
+// See /src/context/TimeContext.jsx
+// This file is kept for backwards compatibility but should not be used
 
-export { startTime, endTime };
+// Deprecated: Use useTime() hook from TimeContext instead
+export const startTime = null;
+export const endTime = null;

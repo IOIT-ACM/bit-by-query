@@ -89,7 +89,7 @@ app.post("/api/login", async (req, res) => {
 		// Fetch user from MySQL database
 		const [rows] = await pool.execute(
 			"SELECT * FROM users WHERE username = ?",
-			[username]
+			[username],
 		);
 
 		if (rows.length === 0) {
@@ -131,7 +131,7 @@ app.post("/api/register", async (req, res) => {
 		// Check if the user already exists
 		const [rows] = await pool.execute(
 			"SELECT * FROM users WHERE username = ?",
-			[username]
+			[username],
 		);
 
 		if (rows.length > 0) {
@@ -144,7 +144,7 @@ app.post("/api/register", async (req, res) => {
 		// Insert the new user into the database
 		await pool.execute(
 			"INSERT INTO users (username, password_hash, name) VALUES (?, ?, ?)",
-			[username, hashedPassword, name]
+			[username, hashedPassword, name],
 		);
 
 		res.status(201).json({ message: "User registered successfully" });
@@ -158,7 +158,7 @@ app.get("/api/userinfo", authenticateToken, async (req, res) => {
 	try {
 		const [rows] = await pool.execute(
 			"SELECT * FROM users WHERE username = ?",
-			[req.user.username]
+			[req.user.username],
 		);
 
 		if (rows.length === 0) {
@@ -175,6 +175,54 @@ app.get("/api/userinfo", authenticateToken, async (req, res) => {
 		res.status(500).json({ error: "Internal server error" });
 	}
 });
+app.get("/api/get-time", async (req, res) => {
+	try {
+		const [config] = await pool.execute("SELECT * FROM config");
+		if (config.length === 0) {
+			return res.status(500).json({ error: "The config table is empty." });
+		}
+		res.json({
+			start_time: config[0].start_time,
+			end_time: config[0].end_time,
+		});
+	} catch (err) {
+		console.error("Error while trying to get time: ", err);
+		res.status(500).json({ error: "Internal Server error" });
+	}
+});
+app.post("/api/update-time", authenticateToken, async (req, res) => {
+	try {
+		const { start_time, end_time } = req.body;
+		if (!start_time && !end_time)
+			return res.status(400).json({ error: "Bad Request" });
+		const [rows] = await pool.execute(
+			"SELECT * FROM users where username = ?",
+			[req.user.username],
+		);
+		if (rows.length === 0) {
+			return res.status(402).json({ error: "Unauthorized" });
+		}
+		const [admins] = await pool.execute(
+			"SELECT * FROM admins where user_id = ?",
+			[rows[0].id],
+		);
+		if (admins.length === 0) {
+			return res.status(402).json({ error: "Unauthorized" });
+		}
+		let update_list = [];
+		if (start_time) update_list.push(start_time);
+		if (end_time) update_list.push(end_time);
+
+		await pool.execute(
+			`UPDATE config set ${start_time ? "start_time = ?" : ""}${start_time && end_time ? ", " : ""}${end_time ? "end_time = ?" : ""}`,
+			update_list,
+		);
+		res.json({ message: "Updated config." });
+	} catch (err) {
+		console.error("Error while trying to update time: ", err);
+		res.status(500).json({ error: "Internal server error" });
+	}
+});
 
 // Route: Fetch all problems (protected)
 app.get("/api/problems", authenticateToken, (req, res) => {
@@ -188,7 +236,7 @@ app.get("/api/submissions", authenticateToken, async (req, res) => {
 	try {
 		const [rows] = await pool.execute(
 			"SELECT * FROM submissions WHERE username = ?",
-			[req.user.username]
+			[req.user.username],
 		);
 
 		res.json(rows);
@@ -305,7 +353,7 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
 		try {
 			const [existingSubmission] = await pool.execute(
 				"SELECT * FROM submissions WHERE username = ? AND problem_id = ?",
-				[req.user.username, problemId]
+				[req.user.username, problemId],
 			);
 
 			if (existingSubmission.length > 0) {
@@ -317,7 +365,7 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
 
 			const [userRows] = await pool.execute(
 				"SELECT name FROM users WHERE username = ?",
-				[req.user.username]
+				[req.user.username],
 			);
 
 			if (userRows.length === 0) {
@@ -328,7 +376,7 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
 
 			await pool.execute(
 				"INSERT INTO submissions (username, name, problem_id, marks, timestamp) VALUES (?, ?, ?, ?, UNIX_TIMESTAMP())",
-				[req.user.username, userName, problemId, problem.marks]
+				[req.user.username, userName, problemId, problem.marks],
 			);
 		} catch (dbErr) {
 			console.error("Error saving submission:", dbErr.message);
