@@ -557,7 +557,7 @@
   {
     "id": 8,
     "title": "Price Ladder",
-    "description": "Write a query to retrieve all products ordered by price in descending order (highest to lowest). Return all columns.",
+    "description": "Given the `products` table, Write a query to retrieve all products ordered by price in descending order (highest to lowest). Return all columns.",
     "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price REAL, stock INTEGER);",
     "testCases": [
       {
@@ -1082,7 +1082,7 @@
   {
     "id": 14,
     "title": "Budget Groceries",
-    "description": "Write a query to find all products that are in the 'Food' category AND have a price less than 10. Return name and price columns. Use the shop table.",
+    "description": "Given the `shop` table, Write a query to find all products that are in the 'Food' category AND have a price less than 10. Return name and price columns.",
     "schema": "CREATE TABLE shop (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT, price REAL);",
     "testCases": [
       {
@@ -1215,7 +1215,7 @@
   {
     "id": 16,
     "title": "Order Details",
-    "description": "Write a query to join the orders and customers tables and return customer_name, order_amount for all orders. Use an INNER JOIN on customer_id.",
+    "description": "Given the `orders` and `customers` tables, Write a query to return customer_name, order_amount for all orders and match the expected output.",
     "schema": "CREATE TABLE customers (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, email TEXT); CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_id INTEGER, order_amount REAL, order_date TEXT);",
     "testCases": [
       {
@@ -1266,7 +1266,7 @@
   {
     "id": 17,
     "title": "Team Roster",
-    "description": "Write a query to find all employees and their department names using a LEFT JOIN. Return employee_name and department_name. Employees without a department should show NULL for department_name. TABLES: employees, departments",
+    "description": "Given the `employees` and `departments` tables, Write a query to find all employees and their department names. Return employee_name and department_name. Employees without a department should show NULL for department_name.",
     "schema": "CREATE TABLE departments (id INTEGER PRIMARY KEY AUTOINCREMENT, department_name TEXT); CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, employee_name TEXT, department_id INTEGER);",
     "testCases": [
       {
@@ -1416,7 +1416,7 @@
   {
     "id": 20,
     "title": "Date Range Orders",
-    "description": "Write a query to find all orders placed between '2026-01-10' and '2026-01-20' (inclusive). Return customer_name, amount, and order_date columns.",
+    "description": "Given the `orders` table, Write a query to find all orders placed between '2026-01-10' and '2026-01-20' (inclusive). Return customer_name, amount, and order_date columns.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, amount REAL, order_date TIMESTAMP);",
     "testCases": [
       {
@@ -1478,7 +1478,7 @@
   {
     "id": 21,
     "title": "Selected Categories",
-    "description": "Write a query to find all products that belong to the categories 'Electronics', 'Books', or 'Clothing'. Return name and category columns.",
+    "description": "Given the `products` table, Write a query to find all products that belong to the categories 'Electronics', 'Books', or 'Clothing'. Return name and category columns.",
     "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT, price REAL);",
     "testCases": [
       {
@@ -1538,7 +1538,7 @@
   {
     "id": 22,
     "title": "Birth Years",
-    "description": "Write a query to extract the birth year of each person from the people table. Return name and birth_year columns, where birth_year is extracted using strftime.",
+    "description": "Write a query to extract the birth year of each person from the people table. Return name and birth_year columns.",
     "schema": "CREATE TABLE people (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, birth_date TEXT, city TEXT);",
     "testCases": [
       {
@@ -1603,7 +1603,7 @@
   {
     "id": 23,
     "title": "Complete Order Info",
-    "description": "Write a query to get order details with customer name and product name. Join orders, customers, and products tables. Return customer_name, product_name, and quantity.",
+    "description": "Given the `orders`, `customers`, and `products` tables, Write a query to get order details with customer name and product name. Return customer_name, product_name, and quantity.",
     "schema": "CREATE TABLE customers (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT); CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, price REAL); CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_id INTEGER, product_id INTEGER, quantity INTEGER);",
     "testCases": [
       {
@@ -1670,7 +1670,7 @@
   {
     "id": 24,
     "title": "Manager Assignment",
-    "description": "Write a query to count how many employees have a manager_id (not NULL) and how many don't. Return has_manager (1 or 0) and count columns.",
+    "description": "Given the `employees` table, Write a query to count how many employees have a manager_id (not NULL) and how many don't. Return has_manager (1 or 0) and count columns.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, manager_id INTEGER);",
     "testCases": [
       {
@@ -1767,7 +1767,7 @@
   {
     "id": 25,
     "title": "Department Salaries",
-    "description": "Write a query to calculate the average salary for each department. Return department and avg_salary columns, rounded to 2 decimal places.",
+    "description": "Given the `employees` table, Write a query to calculate the average salary for each department. Return department and avg_salary columns, rounded to 2 decimal places.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT, salary INTEGER);",
     "testCases": [
       {
@@ -1824,7 +1824,7 @@
   {
     "id": 26,
     "title": "Student Rankings",
-    "description": "Write a query to list all students ordered first by grade (descending) and then by name (ascending). Return name and grade columns.",
+    "description": "Given the `students` table, Write a query to list all students ordered first by grade (descending) and then by name (ascending). Return name and grade columns.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER, city TEXT);",
     "testCases": [
       {
@@ -1922,7 +1922,7 @@
   {
     "id": 27,
     "title": "Salary Tiers",
-    "description": "Write a query to categorize employees by salary: 'High' if salary >= 70000, 'Medium' if salary >= 50000, otherwise 'Low'. Return name, salary, and salary_category columns.",
+    "description": "Given the `employees` table, Write a query to categorize employees by salary: 'High' if salary >= 70000, 'Medium' if salary >= 50000, otherwise 'Low'. Return name, salary, and salary_category columns.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT, salary INTEGER);",
     "testCases": [
       {
@@ -2079,7 +2079,7 @@
   {
     "id": 29,
     "title": "Middle Products",
-    "description": "Write a query to get the 4th to 6th highest-priced products (skip first 3, get next 3). Return name and price columns, ordered by price descending.",
+    "description": "Given the `products` table, Write a query to get the 4th to 6th highest-priced products (skip first 3, get next 3). Return name and price columns, ordered by price descending.",
     "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT, price REAL);",
     "testCases": [
       {
@@ -2189,7 +2189,7 @@
   {
     "id": 30,
     "title": "Full Names",
-    "description": "Write a query to create a full_name column by concatenating first_name and last_name with a space in between. Return full_name and email columns.",
+    "description": "Given the `users` table, Write a query to create a full_name column by concatenating first_name and last_name with a space in between. Return full_name and email columns.",
     "schema": "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, first_name TEXT, last_name TEXT, email TEXT);",
     "testCases": [
       {
@@ -2246,7 +2246,7 @@
   {
     "id": 31,
     "title": "January Orders",
-    "description": "Write a query to find all orders placed in January (month = 01). Return customer_name, amount, and order_date columns.",
+    "description": "Given the `orders` table, Write a query to find all orders placed in January (month = 01). Return customer_name, amount, and order_date columns.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, amount REAL, order_date TEXT);",
     "testCases": [
       {
@@ -2308,7 +2308,7 @@
   {
     "id": 32,
     "title": "Reporting Structure",
-    "description": "Write a query to find employees and their manager names using a self-join. Return employee_name and manager_name columns. If an employee has no manager, exclude them from results.",
+    "description": "Given the `employees` table, Write a query to find employees and their manager names. Return employee_name and manager_name columns. If an employee has no manager, exclude them from results.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, manager_id INTEGER);",
     "testCases": [
       {
@@ -2397,7 +2397,7 @@
   {
     "id": 33,
     "title": "Customer Spending",
-    "description": "Write a query to calculate the total amount spent by each customer. Return customer_name and total_spent columns, ordered by total_spent descending.",
+    "description": "Given the `orders` table, Write a query to calculate the total amount spent by each customer. Return customer_name and total_spent columns, ordered by total_spent descending.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, amount REAL, order_date TEXT);",
     "testCases": [
       {
@@ -2466,7 +2466,7 @@
   {
     "id": 34,
     "title": "Product Discounts",
-    "description": "Write a query to list all products with their discount. If discount is NULL, display 0. Return name, price, and discount columns.",
+    "description": "Given the `products` table, Write a query to list all products with their discount. If discount is NULL, display 0. Return name, price, and discount columns.",
     "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price REAL, discount REAL);",
     "testCases": [
       {
@@ -2594,7 +2594,7 @@
   {
     "id": 36,
     "title": "Either Or",
-    "description": "Write a query to find products that are either in 'Electronics' category OR have a price greater than 500. Return name, category, and price columns.",
+    "description": "Given the `products` table, Write a query to find products that are either in 'Electronics' category OR have a price greater than 500. Return name, category, and price columns.",
     "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT, price REAL);",
     "testCases": [
       {
@@ -2650,7 +2650,7 @@
   {
     "id": 37,
     "title": "Department Exclusions",
-    "description": "Write a query to find all employees who are NOT in the 'Sales' or 'Marketing' departments. Return name and department columns.",
+    "description": "Given the `employees` table, Write a query to find all employees who are NOT in the 'Sales' or 'Marketing' departments. Return name and department columns.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT, salary INTEGER);",
     "testCases": [
       {
@@ -2731,7 +2731,7 @@
   {
     "id": 38,
     "title": "Customer Order Totals",
-    "description": "Write a query to find the total order amount for each customer. Join customers and orders tables. Return customer_name and total_orders columns, ordered by total_orders descending.",
+    "description": "Given the `customers` and `orders` tables, Write a query to find the total order amount for each customer. Return customer_name and total_orders columns, ordered by total_orders descending.",
     "schema": "CREATE TABLE customers (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, email TEXT); CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_id INTEGER, amount REAL, order_date TEXT);",
     "testCases": [
       {
@@ -2788,7 +2788,7 @@
   {
     "id": 39,
     "title": "Uncategorized Items",
-    "description": "Write a query to find all products that have no assigned category (category is NULL). Return name and price columns.",
+    "description": "Given the `products` table, Write a query to find all products that have no assigned category (category is NULL). Return name and price columns.",
     "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT, price REAL);",
     "testCases": [
       {
@@ -2851,7 +2851,7 @@
   {
     "id": 40,
     "title": "Price Extremes",
-    "description": "Write a query to find both the minimum and maximum price from the products table. Return min_price and max_price columns.",
+    "description": "Given the `products` table, Write a query to find both the minimum and maximum price from the products table. Return min_price and max_price columns.",
     "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT, price REAL);",
     "testCases": [
       {
@@ -2900,7 +2900,7 @@
   {
     "id": 41,
     "title": "Most Active Customers",
-    "description": "Write a query to count orders per customer and order results by count in descending order. Return customer_name and order_count columns.",
+    "description": "Given the `orders` table, Write a query to count orders per customer and order results by count in descending order. Return customer_name and order_count columns.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, amount REAL, order_date TEXT);",
     "testCases": [
       {
@@ -2956,7 +2956,7 @@
   {
     "id": 42,
     "title": "Average of Totals",
-    "description": "Write a query to find the average of total order amounts per customer. First calculate total per customer, then find the average. Return the result as avg_customer_total, rounded to 2 decimal places.",
+    "description": "Given the `orders` table, Write a query to find the average of total order amounts per customer. First calculate total per customer, then find the average. Return the result as avg_customer_total, rounded to 2 decimal places.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, amount REAL, order_date TEXT);",
     "testCases": [
       {
@@ -3001,7 +3001,7 @@
   {
     "id": 43,
     "title": "Pricier Items",
-    "description": "Write a query to find products priced above the average price of their category. Return name, category, and price columns.",
+    "description": "Given the `products` table, Write a query to find products priced above the average price of their category. Return name, category, and price columns.",
     "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT, price REAL);",
     "testCases": [
       {
@@ -3099,7 +3099,7 @@
   {
     "id": 44,
     "title": "Weekly Patterns",
-    "description": "Write a query to count orders by day of week. Use strftime to get day (0=Sunday, 6=Saturday). Return day_of_week and order_count columns.",
+    "description": "Given the `orders` table, Write a query to count orders by day of week. Return day_of_week (0=Sunday, 6=Saturday) and order_count columns.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, amount REAL, order_date TEXT);",
     "testCases": [
       {
@@ -3159,7 +3159,7 @@
   {
     "id": 45,
     "title": "Category Distribution",
-    "description": "Write a query to calculate each category's percentage of total products. Return category, count, and percentage (rounded to 1 decimal) columns.",
+    "description": "Write a query to calculate each category's percentage of total products. Return category, count, and percentage (rounded to 1 decimal) columns. Use the products table.",
     "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT, price REAL);",
     "testCases": [
       {
@@ -3230,7 +3230,7 @@
   {
     "id": 46,
     "title": "Order History Range",
-    "description": "Write a query to find the first (earliest) and last (latest) order date for each customer. Return customer_name, first_order, and last_order columns.",
+    "description": "Given the `orders` table, Write a query to find the first (earliest) and last (latest) order date for each customer. Return customer_name, first_order, and last_order columns.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, amount REAL, order_date TEXT);",
     "testCases": [
       {
@@ -3287,7 +3287,7 @@
   {
     "id": 47,
     "title": "Inactive Salespeople",
-    "description": "Write a query to find all employees who have not made any sales (not present in sales table). Use LEFT JOIN. Return employee_name only.",
+    "description": "Given the `employees` and `sales` tables, Write a query to find all employees who have not made any sales. Return employee_name only.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, employee_name TEXT, department TEXT); CREATE TABLE sales (id INTEGER PRIMARY KEY AUTOINCREMENT, employee_id INTEGER, amount REAL, sale_date TEXT);",
     "testCases": [
       {
@@ -3330,7 +3330,7 @@
   {
     "id": 48,
     "title": "Budget Tiers",
-    "description": "Write a query to categorize products into price ranges: 'Budget' (price < 50), 'Mid-Range' (50-200), 'Premium' (> 200). Return name, price, and price_range columns.",
+    "description": "Write a query to categorize products into price ranges: 'Budget' (price < 50), 'Mid-Range' (50-200), 'Premium' (> 200). Return name, price, and price_range columns. Use the products table.",
     "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT, price REAL);",
     "testCases": [
       {
@@ -3407,7 +3407,7 @@
   {
     "id": 49,
     "title": "Progressive Tally",
-    "description": "Write a query to find how many products exist at each price point or below. Return price and cumulative_count columns, ordered by price ascending.",
+    "description": "Write a query to find how many products exist at each price point or below. Return price and cumulative_count columns, ordered by price ascending. Use the products table.",
     "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price REAL);",
     "testCases": [
       {
@@ -3475,7 +3475,7 @@
   {
     "id": 50,
     "title": "Customer Favorites",
-    "description": "Write a query to find the product each customer has ordered the most (by quantity). Return customer_name, product_name, and total_quantity columns. Use the orders table.",
+    "description": "Given the `orders` table, Write a query to find the product each customer has ordered the most (by quantity). Return customer_name, product_name, and total_quantity columns.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, product_name TEXT, quantity INTEGER);",
     "testCases": [
       {
@@ -3523,8 +3523,19 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO orders (customer_name, product_name, quantity) VALUES ('Dan', 'Keyboard', 5), ('Dan', 'Mouse', 3), ('Eve', 'Monitor', 2), ('Eve', 'Monitor', 4);",
+        "expectedOutput": [
+          {
+            "customer_name": "Dan",
+            "product_name": "Keyboard",
+            "total_quantity": 5
+          },
+          {
+            "customer_name": "Eve",
+            "product_name": "Monitor",
+            "total_quantity": 6
+          }
+        ]
       }
     ],
     "marks": 10
@@ -3532,7 +3543,7 @@
   {
     "id": 51,
     "title": "Rank Employees by Salary",
-    "description": "Write a query to rank employees by salary within their department (highest salary = rank 1). Return name, department, salary, and rank columns. Use a correlated subquery to calculate rank.",
+    "description": "Given the `employees` table, Write a query to rank employees by salary within their department (highest salary = rank 1). Return name, department, salary, and rank columns.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT, salary INTEGER);",
     "testCases": [
       {
@@ -3556,7 +3567,7 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
+        "sampleData": "INSERT INTO employees (name, salary) VALUES ('Tom', 50000), ('Dick', 60000), ('Harry', 55000);",
         "expectedOutput": []
       }
     ],
@@ -3599,8 +3610,13 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO users (name, email) VALUES ('A', 'test@email.com'), ('B', 'test@email.com'), ('C', 'test@email.com'), ('D', 'unique@email.com');",
+        "expectedOutput": [
+          {
+            "email": "test@email.com",
+            "occurrence_count": 3
+          }
+        ]
       }
     ],
     "marks": 10
@@ -3608,7 +3624,7 @@
   {
     "id": 53,
     "title": "Customers with All Product Categories",
-    "description": "Write a query to find customers who have purchased products from ALL available categories. Return customer_name only.",
+    "description": "Given tables `categories`, `products` and `orders`, Write a query to find customers who have purchased products from ALL available categories. Return customer_name only.",
     "schema": "CREATE TABLE categories (id INTEGER PRIMARY KEY AUTOINCREMENT, category_name TEXT); CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, category_id INTEGER); CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, product_id INTEGER);",
     "testCases": [
       {
@@ -3651,8 +3667,17 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO categories (category_name) VALUES ('Electronics'), ('Books'), ('Clothing'); INSERT INTO products (product_name, category_id) VALUES ('Laptop', 1), ('Novel', 2), ('Shirt', 3); INSERT INTO orders (customer_name, product_id) VALUES ('Pat', 1), ('Pat', 2), ('Pat', 3), ('Sam', 1), ('Sam', 2);",
+        "expectedOutput": [
+          {
+            "customer_name": "Pat",
+            "order_count": 3
+          },
+          {
+            "customer_name": "Sam",
+            "order_count": 2
+          }
+        ]
       }
     ],
     "marks": 14
@@ -3660,7 +3685,7 @@
   {
     "id": 54,
     "title": "Running Total of Sales",
-    "description": "Write a query to calculate the running total of sales amounts ordered by date. Return sale_date, amount, and running_total columns.",
+    "description": "Given the `sales` table, Write a query to calculate the running total of sales amounts ordered by date. Return sale_date, amount, and running_total columns.",
     "schema": "CREATE TABLE sales (id INTEGER PRIMARY KEY AUTOINCREMENT, sale_date TEXT, amount REAL);",
     "testCases": [
       {
@@ -3713,8 +3738,24 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO sales (sale_date, amount) VALUES ('2026-01-01', 100), ('2026-01-02', 200), ('2026-01-03', 150);",
+        "expectedOutput": [
+          {
+            "sale_date": "2026-01-01",
+            "amount": 100.0,
+            "running_total": 100.0
+          },
+          {
+            "sale_date": "2026-01-02",
+            "amount": 200.0,
+            "running_total": 300.0
+          },
+          {
+            "sale_date": "2026-01-03",
+            "amount": 150.0,
+            "running_total": 450.0
+          }
+        ]
       }
     ],
     "marks": 12
@@ -3722,7 +3763,7 @@
   {
     "id": 55,
     "title": "Employees Earning More Than Manager",
-    "description": "Write a query to find employees who earn more than their manager. Return employee_name, employee_salary, manager_name, and manager_salary columns.",
+    "description": "Given the `employees` table, Write a query to find employees who earn more than their manager. Return employee_name, employee_salary, manager_name, and manager_salary columns.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, salary INTEGER, manager_id INTEGER);",
     "testCases": [
       {
@@ -3762,8 +3803,15 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO employees (name, salary, manager_id) VALUES ('Boss', 100000, NULL), ('Worker1', 110000, 1), ('Worker2', 90000, 1);",
+        "expectedOutput": [
+          {
+            "employee_name": "Worker1",
+            "employee_salary": 110000,
+            "manager_name": "Boss",
+            "manager_salary": 100000
+          }
+        ]
       }
     ],
     "marks": 11
@@ -3771,7 +3819,7 @@
   {
     "id": 56,
     "title": "Consecutive Login Days",
-    "description": "Write a query to find users who have logged in for at least 3 consecutive days. Return user_name and consecutive_days columns.",
+    "description": "Given the `logins` table, Write a query to find users who have logged in for at least 3 consecutive days. Return user_name and consecutive_days columns.",
     "schema": "CREATE TABLE logins (id INTEGER PRIMARY KEY AUTOINCREMENT, user_name TEXT, login_date TEXT);",
     "testCases": [
       {
@@ -3801,8 +3849,13 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO logins (user_name, login_date) VALUES ('User1', '2026-01-01'), ('User1', '2026-01-02'), ('User1', '2026-01-03'), ('User1', '2026-01-04'), ('User2', '2026-01-01'), ('User2', '2026-01-03');",
+        "expectedOutput": [
+          {
+            "user_name": "User1",
+            "consecutive_days": 4
+          }
+        ]
       }
     ],
     "marks": 14
@@ -3868,8 +3921,29 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO products (product_name, category, price) VALUES ('A1', 'Tech', 500), ('A2', 'Tech', 400), ('A3', 'Tech', 300), ('B1', 'Home', 200), ('B2', 'Home', 150);",
+        "expectedOutput": [
+          {
+            "category": "Home",
+            "product_name": "B1",
+            "price": 200.0
+          },
+          {
+            "category": "Home",
+            "product_name": "B2",
+            "price": 150.0
+          },
+          {
+            "category": "Tech",
+            "product_name": "A1",
+            "price": 500.0
+          },
+          {
+            "category": "Tech",
+            "product_name": "A2",
+            "price": 400.0
+          }
+        ]
       }
     ],
     "marks": 13
@@ -3950,8 +4024,34 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO employees (name, salary) VALUES ('E1', 10000), ('E2', 20000), ('E3', 30000), ('E4', 40000), ('E5', 50000);",
+        "expectedOutput": [
+          {
+            "name": "E1",
+            "salary": 10000,
+            "next_salary": 20000
+          },
+          {
+            "name": "E2",
+            "salary": 20000,
+            "next_salary": 30000
+          },
+          {
+            "name": "E3",
+            "salary": 30000,
+            "next_salary": 40000
+          },
+          {
+            "name": "E4",
+            "salary": 40000,
+            "next_salary": 50000
+          },
+          {
+            "name": "E5",
+            "salary": 50000,
+            "next_salary": null
+          }
+        ]
       }
     ],
     "marks": 14
@@ -3959,7 +4059,7 @@
   {
     "id": 59,
     "title": "Year-over-Year Growth",
-    "description": "Write a query to calculate year-over-year revenue growth percentage. Return year, revenue, and growth_percentage (rounded to 2 decimals) columns. First year should have NULL for growth.",
+    "description": "Given the `yearly_revenue` table, Write a query to calculate year-over-year revenue growth percentage. Return year, revenue, and growth_percentage (rounded to 2 decimals) columns. First year should have NULL for growth.",
     "schema": "CREATE TABLE yearly_revenue (id INTEGER PRIMARY KEY AUTOINCREMENT, year INTEGER, revenue REAL);",
     "testCases": [
       {
@@ -4012,8 +4112,24 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO yearly_revenue (year, revenue) VALUES (2023, 100000), (2024, 120000), (2025, 150000);",
+        "expectedOutput": [
+          {
+            "year": 2023,
+            "revenue": 100000.0,
+            "growth_percentage": null
+          },
+          {
+            "year": 2024,
+            "revenue": 120000.0,
+            "growth_percentage": 20.0
+          },
+          {
+            "year": 2025,
+            "revenue": 150000.0,
+            "growth_percentage": 25.0
+          }
+        ]
       }
     ],
     "marks": 12
@@ -4021,7 +4137,7 @@
   {
     "id": 60,
     "title": "Find Gaps in Sequence",
-    "description": "Write a query to find missing numbers in a sequence of IDs. Return missing_id column for each gap.",
+    "description": "Given the `items` table, Write a query to find missing numbers in a sequence of IDs. Return missing_id column for each gap.",
     "schema": "CREATE TABLE items (id INTEGER PRIMARY KEY);",
     "testCases": [
       {
@@ -4071,7 +4187,7 @@
   {
     "id": 61,
     "title": "Pivot Monthly Sales",
-    "description": "Write a query to pivot monthly sales data showing total sales for Jan, Feb, and Mar as separate columns. Return year, jan_sales, feb_sales, and mar_sales columns.",
+    "description": "Given the `monthly_sales` table, Write a query to pivot monthly sales data showing total sales for Jan, Feb, and Mar as separate columns. Return year, jan_sales, feb_sales, and mar_sales columns.",
     "schema": "CREATE TABLE monthly_sales (id INTEGER PRIMARY KEY AUTOINCREMENT, year INTEGER, month INTEGER, amount REAL);",
     "testCases": [
       {
@@ -4118,8 +4234,21 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO monthly_sales (year, month, amount) VALUES (2025, 1, 1000), (2025, 2, 1500), (2025, 3, 2000), (2026, 1, 1200), (2026, 2, 1800), (2026, 3, 2200);",
+        "expectedOutput": [
+          {
+            "year": 2025,
+            "jan_sales": 1000.0,
+            "feb_sales": 1500.0,
+            "mar_sales": 2000.0
+          },
+          {
+            "year": 2026,
+            "jan_sales": 1200.0,
+            "feb_sales": 1800.0,
+            "mar_sales": 2200.0
+          }
+        ]
       }
     ],
     "marks": 11
@@ -4127,7 +4256,7 @@
   {
     "id": 62,
     "title": "Recursive Category Hierarchy",
-    "description": "Write a query to find all subcategories of a given parent category (id=1), including nested subcategories. Return id, name, and level (depth from parent) columns.",
+    "description": "Given the `categories` table, Write a query to find all subcategories of a given parent category (id=1), including nested subcategories. Return id, name, and level (depth from parent) columns.",
     "schema": "CREATE TABLE categories (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, parent_id INTEGER);",
     "testCases": [
       {
@@ -4179,8 +4308,24 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO categories (name, parent_id) VALUES ('Root', NULL), ('Child1', 1), ('Child2', 1), ('Grandchild1', 2);",
+        "expectedOutput": [
+          {
+            "id": 2,
+            "name": "Child1",
+            "level": 1
+          },
+          {
+            "id": 3,
+            "name": "Child2",
+            "level": 1
+          },
+          {
+            "id": 4,
+            "name": "Grandchild1",
+            "level": 2
+          }
+        ]
       }
     ],
     "marks": 15
@@ -4188,7 +4333,7 @@
   {
     "id": 63,
     "title": "Moving Average",
-    "description": "Write a query to calculate a 3-day moving average of sales. Return sale_date, amount, and moving_avg (average of current and previous 2 days) columns, rounded to 2 decimals.",
+    "description": "Given the `daily_sales` table, Write a query to calculate a 3-day moving average of sales. Return sale_date, amount, and moving_avg (average of current and previous 2 days) columns, rounded to 2 decimals.",
     "schema": "CREATE TABLE daily_sales (id INTEGER PRIMARY KEY AUTOINCREMENT, sale_date TEXT, amount REAL);",
     "testCases": [
       {
@@ -4251,8 +4396,29 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO daily_sales (sale_date, amount) VALUES ('2026-01-01', 100), ('2026-01-02', 200), ('2026-01-03', 300), ('2026-01-04', 400);",
+        "expectedOutput": [
+          {
+            "sale_date": "2026-01-01",
+            "amount": 100.0,
+            "moving_avg": 100.0
+          },
+          {
+            "sale_date": "2026-01-02",
+            "amount": 200.0,
+            "moving_avg": 150.0
+          },
+          {
+            "sale_date": "2026-01-03",
+            "amount": 300.0,
+            "moving_avg": 200.0
+          },
+          {
+            "sale_date": "2026-01-04",
+            "amount": 400.0,
+            "moving_avg": 300.0
+          }
+        ]
       }
     ],
     "marks": 13
@@ -4260,7 +4426,7 @@
   {
     "id": 64,
     "title": "Customers Who Bought Both A and B",
-    "description": "Write a query to find customers who have purchased both 'Laptop' AND 'Phone'. Return customer_name only.",
+    "description": "Given the `orders` table, Write a query to find customers who have purchased both 'Laptop' AND 'Phone'. Return customer_name only.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, product_name TEXT, quantity INTEGER);",
     "testCases": [
       {
@@ -4291,8 +4457,12 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO orders (customer_name, product_name, quantity) VALUES ('Alex', 'Laptop', 1), ('Alex', 'Phone', 1), ('Beth', 'Laptop', 1), ('Carl', 'Phone', 1);",
+        "expectedOutput": [
+          {
+            "customer_name": "Alex"
+          }
+        ]
       }
     ],
     "marks": 10
@@ -4300,7 +4470,7 @@
   {
     "id": 65,
     "title": "Dense Rank Implementation",
-    "description": "Write a query to assign dense ranks to products by price within each category (no gaps in ranking). Return category, product_name, price, and dense_rank columns.",
+    "description": "Given the `products` table, Write a query to assign dense ranks to products by price within each category (no gaps in ranking). Return category, product_name, price, and dense_rank columns.",
     "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, category TEXT, price REAL);",
     "testCases": [
       {
@@ -4389,8 +4559,39 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO products (product_name, category, price) VALUES ('P1', 'A', 100), ('P2', 'A', 100), ('P3', 'A', 90), ('P4', 'B', 200), ('P5', 'B', 150);",
+        "expectedOutput": [
+          {
+            "category": "A",
+            "product_name": "P1",
+            "price": 100.0,
+            "dense_rank": 1
+          },
+          {
+            "category": "A",
+            "product_name": "P2",
+            "price": 100.0,
+            "dense_rank": 1
+          },
+          {
+            "category": "A",
+            "product_name": "P3",
+            "price": 90.0,
+            "dense_rank": 2
+          },
+          {
+            "category": "B",
+            "product_name": "P4",
+            "price": 200.0,
+            "dense_rank": 1
+          },
+          {
+            "category": "B",
+            "product_name": "P5",
+            "price": 150.0,
+            "dense_rank": 2
+          }
+        ]
       }
     ],
     "marks": 13
@@ -4398,7 +4599,7 @@
   {
     "id": 66,
     "title": "Difference from Department Average",
-    "description": "Write a query to calculate how much each employee's salary differs from their department's average. Return name, department, salary, dept_avg, and difference columns.",
+    "description": "Given the `employees` table, Write a query to calculate how much each employee's salary differs from their department's average. Return name, department, salary, dept_avg, and difference columns.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT, salary INTEGER);",
     "testCases": [
       {
@@ -4557,7 +4758,7 @@
   {
     "id": 67,
     "title": "First Order per Customer",
-    "description": "Write a query to find each customer's first order (earliest order_date). Return customer_name, order_date, and amount columns.",
+    "description": "Given the `orders` table, Write a query to find each customer's first order (earliest order_date). Return customer_name, order_date, and amount columns.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, order_date TEXT, amount REAL);",
     "testCases": [
       {
@@ -4600,8 +4801,19 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO orders (customer_name, order_date, amount) VALUES ('X', '2026-01-10', 100), ('X', '2026-01-05', 50), ('Y', '2026-01-01', 200);",
+        "expectedOutput": [
+          {
+            "customer_name": "X",
+            "order_date": "2026-01-05",
+            "amount": 50.0
+          },
+          {
+            "customer_name": "Y",
+            "order_date": "2026-01-01",
+            "amount": 200.0
+          }
+        ]
       }
     ],
     "marks": 10
@@ -4609,7 +4821,7 @@
   {
     "id": 68,
     "title": "Products Never Ordered",
-    "description": "Write a query to find products that have never been ordered. Return product_name and price columns.",
+    "description": "Given the `products` and `order_items` tables, Write a query to find products that have never been ordered. Return product_name and price columns.",
     "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, price REAL); CREATE TABLE order_items (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, quantity INTEGER);",
     "testCases": [
       {
@@ -4652,7 +4864,7 @@
   {
     "id": 69,
     "title": "Customers with Increasing Order Amounts",
-    "description": "Write a query to find customers whose every subsequent order has a higher amount than the previous one. Return customer_name and order_count columns.",
+    "description": "Given the `orders` table, Write a query to find customers whose every subsequent order has a higher amount than the previous one. Return customer_name and order_count columns.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, order_date TEXT, amount REAL);",
     "testCases": [
       {
@@ -4682,8 +4894,13 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO orders (customer_name, order_date, amount) VALUES ('C1', '2026-01-01', 100), ('C1', '2026-01-02', 150), ('C1', '2026-01-03', 200), ('C2', '2026-01-01', 100), ('C2', '2026-01-02', 90);",
+        "expectedOutput": [
+          {
+            "customer_name": "C1",
+            "order_count": 3
+          }
+        ]
       }
     ],
     "marks": 14
@@ -4691,7 +4908,7 @@
   {
     "id": 70,
     "title": "Mutual Friends",
-    "description": "Write a query to find pairs of users who follow each other (mutual following). Return user1 and user2 columns where user1 < user2 to avoid duplicates.",
+    "description": "Given the `follows` table, Write a query to find pairs of users who follow each other (mutual following). Return user1 and user2 columns where user1 < user2 to avoid duplicates.",
     "schema": "CREATE TABLE follows (id INTEGER PRIMARY KEY AUTOINCREMENT, follower_id INTEGER, following_id INTEGER);",
     "testCases": [
       {
@@ -4729,8 +4946,21 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO follows (follower_id, following_id) VALUES (1, 2), (2, 1), (1, 3), (3, 1), (2, 4), (4, 2);",
+        "expectedOutput": [
+          {
+            "user1": 1,
+            "user2": 2
+          },
+          {
+            "user1": 1,
+            "user2": 3
+          },
+          {
+            "user1": 2,
+            "user2": 4
+          }
+        ]
       }
     ],
     "marks": 11
@@ -4738,7 +4968,7 @@
   {
     "id": 71,
     "title": "Nth Highest Salary",
-    "description": "Write a query to find the 3rd highest distinct salary. Return the result as nth_highest_salary. If there is no 3rd highest, return NULL.",
+    "description": "Given the `employees` table, Write a query to find the 3rd highest distinct salary. Return the result as nth_highest_salary. If there is no 3rd highest, return NULL.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, salary INTEGER);",
     "testCases": [
       {
@@ -4766,8 +4996,12 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO employees (name, salary) VALUES ('A', 100), ('B', 200), ('C', 300), ('D', 400), ('E', 500);",
+        "expectedOutput": [
+          {
+            "nth_highest_salary": 300
+          }
+        ]
       }
     ],
     "marks": 10
@@ -4775,7 +5009,7 @@
   {
     "id": 72,
     "title": "Department Budget Utilization",
-    "description": "Write a query to calculate each department's total salary as a percentage of company total salary. Return department, total_salary, and percentage columns.",
+    "description": "Given the `employees` table, Write a query to calculate each department's total salary as a percentage of company total salary. Return department, total_salary, and percentage columns.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT, salary INTEGER);",
     "testCases": [
       {
@@ -4828,8 +5062,19 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO employees (name, department, salary) VALUES ('E1', 'Engineering', 60000), ('E2', 'Engineering', 40000), ('E3', 'Sales', 50000), ('E4', 'Sales', 30000);",
+        "expectedOutput": [
+          {
+            "department": "Engineering",
+            "total_salary": 100000,
+            "percentage": 55.56
+          },
+          {
+            "department": "Sales",
+            "total_salary": 80000,
+            "percentage": 44.44
+          }
+        ]
       }
     ],
     "marks": 11
@@ -4837,7 +5082,7 @@
   {
     "id": 73,
     "title": "Longest Streak of Active Days",
-    "description": "Write a query to find the longest streak of consecutive active days for each user. Return user_name and max_streak columns.",
+    "description": "Given the `activity_log` table, Write a query to find the longest streak of consecutive active days for each user. Return user_name and max_streak columns.",
     "schema": "CREATE TABLE activity_log (id INTEGER PRIMARY KEY AUTOINCREMENT, user_name TEXT, activity_date TEXT);",
     "testCases": [
       {
@@ -4872,8 +5117,13 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO activity_log (user_name, activity_date) VALUES ('User1', '2026-01-01'), ('User1', '2026-01-02'), ('User1', '2026-01-03'), ('User1', '2026-01-05'), ('User1', '2026-01-06');",
+        "expectedOutput": [
+          {
+            "user_name": "User1",
+            "max_streak": 1
+          }
+        ]
       }
     ],
     "marks": 15
@@ -4881,7 +5131,7 @@
   {
     "id": 74,
     "title": "Products Ordered Together",
-    "description": "Write a query to find pairs of products that are frequently ordered together in the same order. Return product1, product2, and times_together columns where product1 < product2.",
+    "description": "Given the `order_items` table, Write a query to find pairs of products that are frequently ordered together in the same order. Return product1, product2, and times_together columns where product1 < product2.",
     "schema": "CREATE TABLE order_items (id INTEGER PRIMARY KEY AUTOINCREMENT, order_id INTEGER, product_name TEXT);",
     "testCases": [
       {
@@ -4923,8 +5173,19 @@
       },
       {
         "id": 4,
-        "sampleData": " ",
-        "expectedOutput": []
+        "sampleData": "INSERT INTO order_items (order_id, product_name) VALUES (1, 'Apple'), (1, 'Banana'), (2, 'Apple'), (2, 'Banana'), (3, 'Apple'), (3, 'Cherry');",
+        "expectedOutput": [
+          {
+            "product1": "Apple",
+            "product2": "Banana",
+            "times_together": 2
+          },
+          {
+            "product1": "Apple",
+            "product2": "Cherry",
+            "times_together": 1
+          }
+        ]
       }
     ],
     "marks": 12
@@ -4932,7 +5193,7 @@
   {
     "id": 75,
     "title": "Active Users Per Month with Retention",
-    "description": "Write a query to find users who were active in both the current month and the previous month (retained users). Return month (in format 'YYYY-MM') and retained_users count columns.",
+    "description": "Given the `user_activity` table, Write a query to find users who were active in both the current month and the previous month (retained users). Return month (in format 'YYYY-MM') and retained_users count columns.",
     "schema": "CREATE TABLE user_activity (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, activity_date TEXT);",
     "testCases": [
       {
