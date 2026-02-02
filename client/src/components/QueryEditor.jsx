@@ -1,12 +1,18 @@
 import { useRef } from "react";
-import Editor from "@monaco-editor/react";
+import Editor, { loader } from "@monaco-editor/react";
 import { ClipLoader } from "react-spinners";
 import PropTypes from "prop-types";
+import * as monaco from "monaco-editor";
 
 const QueryEditor = ({ userQuery, setUserQuery, handleEvaluate, loading }) => {
 	const handleEvaluateRef = useRef(handleEvaluate);
 	handleEvaluateRef.current = handleEvaluate;
-
+	loader.config({
+		monaco,
+	});
+	loader.init().then((monacoInstance) => {
+		//console.log(monacoInstance);
+	});
 	const handleEditorMount = (editor, monaco) => {
 		editor.addAction({
 			id: "evaluate-query",

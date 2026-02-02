@@ -147,7 +147,7 @@ function Home() {
 			<div className="flex flex-1 bg-neutral-950">
 				<Sidebar
 					problems={problems}
-					problemId={problemId}
+					problemId={problemId.toString()}
 					setProblemId={setProblemId}
 					problemDetails={problemDetails}
 					solvedProblems={solvedProblems}
