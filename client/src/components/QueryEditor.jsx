@@ -1,18 +1,45 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Editor, { loader } from "@monaco-editor/react";
 import { ClipLoader } from "react-spinners";
 import PropTypes from "prop-types";
 import * as monaco from "monaco-editor";
 
+console.log("QueryEditor module loaded");
+
 const QueryEditor = ({ userQuery, setUserQuery, handleEvaluate, loading }) => {
+	const [monacoReady, setMonacoReady] = useState(false);
+
+	useEffect(() => {
+		console.log("QueryEditor useEffect running");
+		const envValue = import.meta.env.VITE_MONACO_LOAD_LOCAL;
+		console.log(
+			"VITE_MONACO_LOAD_LOCAL env value:",
+			envValue,
+			"type:",
+			typeof envValue,
+		);
+		const shouldLoadLocal = envValue === "true";
+		console.log("shouldLoadLocal:", shouldLoadLocal);
+
+		if (shouldLoadLocal) {
+			console.log("Configuring local Monaco...");
+			loader.config({ monaco });
+		}
+
+		loader
+			.init()
+			.then(() => {
+				console.log("Monaco initialized");
+				setMonacoReady(true);
+			})
+			.catch((err) => {
+				console.error("Monaco init error:", err);
+				setMonacoReady(true);
+			});
+	}, []);
 	const handleEvaluateRef = useRef(handleEvaluate);
 	handleEvaluateRef.current = handleEvaluate;
-	loader.config({
-		monaco,
-	});
-	loader.init().then((monacoInstance) => {
-		//console.log(monacoInstance);
-	});
+
 	const handleEditorMount = (editor, monaco) => {
 		editor.addAction({
 			id: "evaluate-query",
@@ -29,20 +56,26 @@ const QueryEditor = ({ userQuery, setUserQuery, handleEvaluate, loading }) => {
 			<h2 className="text-2xl font-bold text-blue-400">SQL Editor</h2>
 			<p className="text-gray-200 mb-6 text-lg">Write your SQL query here</p>
 
-			<Editor
-				height="300px"
-				language="sql"
-				value={userQuery}
-				onChange={(value) => setUserQuery(value)}
-				onMount={handleEditorMount}
-				options={{
-					minimap: { enabled: false },
-					fontSize: 22,
-					theme: "vs-dark",
-					lineNumbers: "off",
-				}}
-				className="border border-gray-700 rounded-md shadow-md my-4"
-			/>
+			{monacoReady ? (
+				<Editor
+					height="300px"
+					language="sql"
+					value={userQuery}
+					onChange={(value) => setUserQuery(value)}
+					onMount={handleEditorMount}
+					options={{
+						minimap: { enabled: false },
+						fontSize: 22,
+						theme: "vs-dark",
+						lineNumbers: "off",
+					}}
+					className="border border-gray-700 rounded-md shadow-md my-4"
+				/>
+			) : (
+				<div className="flex justify-center items-center h-64">
+					<ClipLoader color="#fff" loading={true} size={24} />
+				</div>
+			)}
 
 			<div className="flex flex-col items-end justify-end mt-4">
 				<button
