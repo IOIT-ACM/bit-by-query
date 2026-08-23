@@ -29,6 +29,14 @@ const Header = ({ userInfo }) => {
       </h1>
 
       <div className="flex gap-3 text-sm">
+        {userInfo?.isAdmin && (
+          <button
+            className="px-3 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            onClick={() => navigate("/admin")}
+          >
+            <span className="font-semibold">Admin</span>
+          </button>
+        )}
         <button
           className="px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onClick={() => setShowModal(true)}
@@ -52,6 +60,7 @@ Header.propTypes = {
   userInfo: PropTypes.shape({
     name: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
+    isAdmin: PropTypes.bool,
   }),
 };
 

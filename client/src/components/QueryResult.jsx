@@ -8,30 +8,33 @@ const QueryResult = ({ queryResult }) => {
 	const [activeTab, setActiveTab] = useState(0);
 
 	useEffect(() => {
-		if (queryResult?.correct) {
-			const end = Date.now() + 500;
-			const colors = ["#bb0000", "#ffffff", "#00bb00", "#0000bb", "#ffbb00"];
-			const frame = () => {
-				confetti({
-					particleCount: 10,
-					angle: 60,
-					spread: 100,
-					origin: { x: 0 },
-					colors: colors,
-				});
-				confetti({
-					particleCount: 10,
-					angle: 120,
-					spread: 100,
-					origin: { x: 1 },
-					colors: colors,
-				});
-				if (Date.now() < end) {
-					requestAnimationFrame(frame);
-				}
-			};
-			frame();
-		}
+		if (!queryResult?.correct) return;
+
+		let rafId;
+		const end = Date.now() + 500;
+		const colors = ["#bb0000", "#ffffff", "#00bb00", "#0000bb", "#ffbb00"];
+		const frame = () => {
+			confetti({
+				particleCount: 10,
+				angle: 60,
+				spread: 100,
+				origin: { x: 0 },
+				colors: colors,
+			});
+			confetti({
+				particleCount: 10,
+				angle: 120,
+				spread: 100,
+				origin: { x: 1 },
+				colors: colors,
+			});
+			if (Date.now() < end) {
+				rafId = requestAnimationFrame(frame);
+			}
+		};
+		frame();
+
+		return () => cancelAnimationFrame(rafId);
 	}, [queryResult?.correct]);
 
 	if (!queryResult) return null;
@@ -65,7 +68,7 @@ const QueryResult = ({ queryResult }) => {
 				<div className="flex border-b border-gray-700">
 					{queryResult.testResults.map((testCase, index) => (
 						<button
-							key={index}
+							key={testCase.testCaseNumber}
 							className={`px-4 py-2 text-sm font-medium ${
 								activeTab === index
 									? "border-b-2 border-green-400 text-green-300"

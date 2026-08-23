@@ -3,6 +3,14 @@ import { useNavigate } from "react-router-dom";
 import Modal from "./components/Modal";
 import { useTime } from "./context/TimeContext";
 
+const formatTime = (time) => {
+	const days = Math.floor(time / (1000 * 60 * 60 * 24));
+	const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	const minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+	const seconds = Math.floor((time % (1000 * 60)) / 1000);
+	return { days, hours, minutes, seconds };
+};
+
 function CountDown() {
 	const [timeRemaining, setTimeRemaining] = useState(0);
 	const [message, setMessage] = useState("");
@@ -37,14 +45,6 @@ function CountDown() {
 
 		return () => clearInterval(interval);
 	}, [startTime, endTime, loading]);
-
-	const formatTime = (time) => {
-		const days = Math.floor(time / (1000 * 60 * 60 * 24));
-		const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-		const minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
-		const seconds = Math.floor((time % (1000 * 60)) / 1000);
-		return { days, hours, minutes, seconds };
-	};
 
 	const { days, hours, minutes, seconds } = formatTime(timeRemaining);
 

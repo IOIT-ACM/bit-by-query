@@ -5,6 +5,7 @@ import axios from 'axios';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -84,7 +85,7 @@ function Login() {
               </label>
               <div className="relative">
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   aria-label="Password"
                   className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md"
@@ -95,9 +96,12 @@ function Login() {
                 />
                 <button
                   type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  aria-pressed={showPassword}
                   className="absolute inset-y-0 right-0 px-3 py-2 text-gray-400"
                 >
-                  <i className="fas fa-eye"></i>
+                  <i className={showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'}></i>
                 </button>
               </div>
             </div>

@@ -5,6 +5,7 @@ import LeaderBoard from "./LeaderBoard";
 import CountDown from "./CountDown";
 import NotFound from "./NotFound";
 import Register from "./Register";
+import Admin from "./Admin";
 import Middleware from "./middleware";
 import { TimeProvider } from "./context/TimeContext";
 
@@ -47,6 +48,14 @@ function App() {
 					/>
 					<Route path="/leaderboard" element={<LeaderBoard />} />
 					<Route path="/countdown" element={<CountDown />} />
+					<Route
+						path="/admin"
+						element={
+							<Middleware>
+								<Admin />
+							</Middleware>
+						}
+					/>
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</Router>

@@ -36,6 +36,24 @@ CREATE TABLE `admins` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `event_logs`
+--
+
+DROP TABLE IF EXISTS `event_logs`;
+CREATE TABLE `event_logs` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `type` enum('auth','admin','error') NOT NULL,
+  `level` enum('info','warn','error') NOT NULL DEFAULT 'info',
+  `message` text NOT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `ip_address` varchar(64) DEFAULT NULL,
+  `metadata` text DEFAULT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_event_logs_type_created` (`type`, `created_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `submissions`
 --
 

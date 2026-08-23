@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useMemo } from "react";
 
 const Sidebar = ({
 	problems,
@@ -7,6 +8,13 @@ const Sidebar = ({
 	problemDetails,
 	solvedProblems,
 }) => {
+	// Normalized to numbers since `problemId` arrives as a string (see
+	// Home.jsx) while `solvedProblems` entries are numbers.
+	const solvedProblemsSet = useMemo(
+		() => new Set(solvedProblems.map(Number)),
+		[solvedProblems],
+	);
+
 	return (
 		<aside className="w-full md:w-1/3 p-6 border-r border-gray-700 bg-neutral-950 overflow-y-auto">
 			<h1 className="text-2xl font-bold text-blue-400">Questions</h1>
@@ -27,7 +35,7 @@ const Sidebar = ({
 							className={`p-3 rounded-lg border text-sm font-medium transition-transform transform focus:outline-none ${
 								problemId == problem.id
 									? "border-green-500 bg-green-600 text-white shadow-md"
-									: solvedProblems.includes(problem.id)
+									: solvedProblemsSet.has(problem.id)
 										? "border-blue-400 bg-blue-500 text-white shadow-sm" // Solved problems
 										: "border-gray-500 bg-gray-700 text-gray-300 hover:bg-gray-600"
 							}`}
@@ -57,7 +65,7 @@ const Sidebar = ({
 					<p className="text-gray-500 mb-4 text-lg">
 						{problemDetails.description}
 					</p>
-					{solvedProblems.includes(problemId) && (
+					{solvedProblemsSet.has(Number(problemId)) && (
 						<div className="flex items-center gap-2 text-sm text-yellow-400">
 							<span>✅ You have already solved this problem!</span>
 						</div>

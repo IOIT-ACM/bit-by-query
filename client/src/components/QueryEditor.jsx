@@ -1,8 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Editor, { loader } from "@monaco-editor/react";
 import { ClipLoader } from "react-spinners";
 import PropTypes from "prop-types";
 import * as monaco from "monaco-editor";
+import EditorWorker from "monaco-editor/editor/editor.worker?worker";
+
+// Without this, Monaco falls back to spinning up its worker from a data:
+// URL, whose bootstrap script uses a relative import that can't resolve
+// with no base path - it fails silently (console error, no crash), but SQL
+// doesn't need a dedicated language worker anyway so the plain editor
+// worker covers everything the app uses.
+self.MonacoEnvironment = {
+	getWorker() {
+		return new EditorWorker();
+	},
+};
 
 console.log("QueryEditor module loaded");
 
@@ -38,7 +50,9 @@ const QueryEditor = ({ userQuery, setUserQuery, handleEvaluate, loading }) => {
 			});
 	}, []);
 	const handleEvaluateRef = useRef(handleEvaluate);
-	handleEvaluateRef.current = handleEvaluate;
+	useLayoutEffect(() => {
+		handleEvaluateRef.current = handleEvaluate;
+	});
 
 	const handleEditorMount = (editor, monaco) => {
 		editor.addAction({

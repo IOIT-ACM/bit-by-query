@@ -4,6 +4,7 @@ import {
 	useState,
 	useEffect,
 	useCallback,
+	useMemo,
 } from "react";
 import axios from "axios";
 
@@ -40,12 +41,13 @@ export function TimeProvider({ children }) {
 		return () => clearInterval(interval);
 	}, [fetchTimings]);
 
+	const value = useMemo(
+		() => ({ startTime, endTime, loading, error, refetch: fetchTimings }),
+		[startTime, endTime, loading, error, fetchTimings],
+	);
+
 	return (
-		<TimeContext.Provider
-			value={{ startTime, endTime, loading, error, refetch: fetchTimings }}
-		>
-			{children}
-		</TimeContext.Provider>
+		<TimeContext.Provider value={value}>{children}</TimeContext.Provider>
 	);
 }
 
@@ -56,5 +58,3 @@ export function useTime() {
 	}
 	return context;
 }
-
-export default TimeContext;
