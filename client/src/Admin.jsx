@@ -13,8 +13,30 @@ const toDatetimeLocal = (ms) => {
 	)}:${pad(d.getMinutes())}`;
 };
 
+// Pinned to a fixed timezone rather than relying on the browser/OS's
+// ambient timezone setting, which is easy to get wrong on a freshly set up
+// event machine and silently shows a confusing offset.
+const DISPLAY_TIMEZONE = "Asia/Kolkata";
+
 const formatClock = (date) =>
-	Number.isNaN(date.getTime()) ? "-" : date.toLocaleTimeString();
+	Number.isNaN(date.getTime())
+		? "-"
+		: date.toLocaleTimeString("en-IN", { timeZone: DISPLAY_TIMEZONE });
+
+// datetime-local inputs always render using the browser's own OS timezone
+// with no way to override that - so a mismatched device would still be
+// confusing there. This gives an explicit, unambiguous IST readout next to
+// the input as a cross-check, independent of the device's own settings.
+const formatIstPreview = (datetimeLocalValue) => {
+	if (!datetimeLocalValue) return "";
+	const d = new Date(datetimeLocalValue);
+	if (Number.isNaN(d.getTime())) return "";
+	return d.toLocaleString("en-IN", {
+		timeZone: DISPLAY_TIMEZONE,
+		dateStyle: "medium",
+		timeStyle: "short",
+	});
+};
 
 const LOG_TABS = [
 	{ key: "submissions", label: "Submissions" },
@@ -122,7 +144,12 @@ function LogsPanel() {
 									</td>
 									<td className="p-2">{r.name || r.username}</td>
 									<td className="p-2">{r.problemTitle}</td>
-									<td className="p-2">{r.marks}</td>
+									<td className="p-2">
+										{r.marks}
+										{r.bonus_marks > 0 && (
+											<span className="text-green-400"> +{r.bonus_marks}</span>
+										)}
+									</td>
 								</tr>
 							))
 						) : (
@@ -164,6 +191,7 @@ function Admin() {
 	const initializedRef = useRef(false);
 
 	const [saving, setSaving] = useState(false);
+	const [resetting, setResetting] = useState(false);
 	const [statusMessage, setStatusMessage] = useState(null);
 	const [statusIsError, setStatusIsError] = useState(false);
 
@@ -262,6 +290,33 @@ function Admin() {
 			{ end_time: nowDate.toISOString() },
 			"Competition ended.",
 		).then(() => setEndInput(toDatetimeLocal(nowDate.getTime())));
+	};
+
+	const handleResetSubmissions = async () => {
+		if (
+			!window.confirm(
+				"This permanently deletes ALL submissions for every user (a backup is saved to db/backups/ first). Use this to clear out test attempts before the real event - not during it. Continue?",
+			)
+		) {
+			return;
+		}
+		setResetting(true);
+		setStatusMessage(null);
+		try {
+			const response = await apiClient.post("/api/admin/submissions/reset");
+			setStatusIsError(false);
+			setStatusMessage(
+				`Reset ${response.data.rowsBackedUp} submission(s). Backup saved as ${response.data.backupFile}.`,
+			);
+		} catch (err) {
+			console.error("Error resetting submissions:", err);
+			setStatusIsError(true);
+			setStatusMessage(
+				err.response?.data?.error || "Failed to reset submissions.",
+			);
+		} finally {
+			setResetting(false);
+		}
 	};
 
 	if (checkingAccess) {
@@ -394,7 +449,10 @@ function Admin() {
 					<form onSubmit={handleSaveSchedule} className="space-y-4">
 						<div>
 							<label htmlFor="start_time" className="block text-sm mb-1">
-								Start Time
+								Start Time{" "}
+								<span className="text-gray-500">
+									(shown in this device&apos;s own timezone)
+								</span>
 							</label>
 							<input
 								type="datetime-local"
@@ -404,10 +462,18 @@ function Admin() {
 								className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md"
 								required
 							/>
+							{startInput && (
+								<p className="text-xs text-gray-400 mt-1">
+									= {formatIstPreview(startInput)} IST
+								</p>
+							)}
 						</div>
 						<div>
 							<label htmlFor="end_time" className="block text-sm mb-1">
-								End Time
+								End Time{" "}
+								<span className="text-gray-500">
+									(shown in this device&apos;s own timezone)
+								</span>
 							</label>
 							<input
 								type="datetime-local"
@@ -417,6 +483,11 @@ function Admin() {
 								className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md"
 								required
 							/>
+							{endInput && (
+								<p className="text-xs text-gray-400 mt-1">
+									= {formatIstPreview(endInput)} IST
+								</p>
+							)}
 						</div>
 						<button
 							type="submit"
@@ -426,6 +497,22 @@ function Admin() {
 							{saving ? "Saving..." : "Save Schedule"}
 						</button>
 					</form>
+				</section>
+
+				<section className="bg-neutral-900 border border-red-900 rounded-lg p-6">
+					<h2 className="text-xl font-bold text-red-400 mb-2">Danger Zone</h2>
+					<p className="text-gray-400 text-sm mb-4">
+						Permanently deletes all submissions (a backup is saved to{" "}
+						<code>db/backups/</code> first). Use this to clear out test
+						attempts before the real event — not during it.
+					</p>
+					<button
+						onClick={handleResetSubmissions}
+						disabled={resetting}
+						className="px-4 py-2 bg-red-700 rounded-md hover:bg-red-800 disabled:opacity-50 font-semibold"
+					>
+						{resetting ? "Resetting..." : "Reset All Submissions"}
+					</button>
 				</section>
 
 				{statusMessage && (

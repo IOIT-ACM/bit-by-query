@@ -67,6 +67,7 @@ CREATE TABLE `submissions` (
   `timestamp` int DEFAULT NULL,
   `name` text COLLATE utf8mb4_unicode_ci,
   `marks` int DEFAULT NULL,
+  `bonus_marks` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

@@ -5,6 +5,7 @@ const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const path = require("path");
+const { stripSqlComments, splitStatements, runQueryAgainstTestCase } = require("./lib/grading");
 require("dotenv").config();
 
 const app = express();
@@ -97,6 +98,23 @@ pool
   )
   .catch((err) => console.error("Failed to ensure event_logs table exists:", err));
 
+pool
+  .execute("ALTER TABLE submissions ADD COLUMN IF NOT EXISTS bonus_marks INT NOT NULL DEFAULT 0")
+  .catch((err) => console.error("Failed to ensure submissions.bonus_marks column exists:", err));
+
+// Early-submission bonus: up to MAX_BONUS_FRACTION extra, decaying linearly
+// from the moment the competition starts to the moment it ends, so solving
+// a problem earlier in the window earns slightly more than solving it late
+// - on top of (never instead of) the problem's own marks.
+const MAX_BONUS_FRACTION = 0.1;
+const computeEarlyBonus = (marks, startTimeMs, endTimeMs, nowMs) => {
+  if (!startTimeMs || !endTimeMs || endTimeMs <= startTimeMs) return 0;
+  const totalDuration = endTimeMs - startTimeMs;
+  const timeRemaining = endTimeMs - nowMs;
+  const remainingFraction = Math.max(0, Math.min(1, timeRemaining / totalDuration));
+  return Math.round(marks * MAX_BONUS_FRACTION * remainingFraction);
+};
+
 // Records an entry for the admin panel's live event log. Never throws -
 // logging a failure must not break the request that triggered it.
 const logEvent = async ({ type, level = "info", message, username = null, req = null, metadata = null }) => {
@@ -145,6 +163,7 @@ const evalPool = mysql.createPool({
   queueLimit: 0,
   timezone: "Z",
   dateStrings: true, // return DATE/DATETIME/TIMESTAMP as plain strings, not JS Date objects
+  decimalNumbers: true, // return DECIMAL (e.g. SUM/AVG results) as JS numbers, not strings
 });
 
 // Middleware to attach pool to req object
@@ -388,48 +407,6 @@ app.get("/api/problems/:id", authenticateToken, (req, res) => {
   res.json(problem);
 });
 
-// Helper function to strip SQL comments
-const stripSqlComments = (sql) => {
-  // Remove multi-line comments /* ... */
-  let result = sql.replace(/\/\*[\s\S]*?\*\//g, "");
-  // Remove single-line comments -- ... (until end of line)
-  result = result.replace(/--.*$/gm, "");
-  // Remove single-line comments # ... (MySQL style, until end of line)
-  result = result.replace(/#.*$/gm, "");
-  return result;
-};
-
-const splitStatements = (sql) =>
-  sql
-    .split(";")
-    .map((s) => s.trim())
-    .filter((s) => s);
-
-// Problems were authored for this app's old SQLite-based evaluation sandbox
-// (see problems/*.json), so their schemas contain a couple of SQLite-isms
-// that aren't valid MySQL:
-//  - AUTOINCREMENT (no underscore) -> AUTO_INCREMENT
-//  - INTEGER -> BIGINT: SQLite's INTEGER is effectively 64-bit with no
-//    range enforcement, while MySQL's INT is 32-bit and does enforce it -
-//    some existing problems use values (e.g. GDP figures) that overflow INT.
-const normalizeSchemaForMysql = (schema) =>
-  schema
-    .replace(/\bAUTOINCREMENT\b/gi, "AUTO_INCREMENT")
-    .replace(/\bINTEGER\b/gi, "BIGINT");
-
-// Run problem schemas as TEMPORARY tables so they're scoped to the eval
-// connection and never collide with real tables the eval user can't see.
-const toTemporaryCreateTable = (stmt) =>
-  stmt.replace(/^\s*CREATE\s+TABLE\b/i, "CREATE TEMPORARY TABLE");
-
-const extractTableNames = (schema) => {
-  const names = [];
-  const re = /CREATE TABLE\s+`?(\w+)`?/gi;
-  let m;
-  while ((m = re.exec(schema))) names.push(m[1]);
-  return names;
-};
-
 app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
   const problemId = req.params.id;
   const { userQuery } = req.body;
@@ -452,35 +429,11 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
     return res.status(400).json({ error: "User query is required" });
   }
 
-  const schema = normalizeSchemaForMysql(problem.schema);
-  const tableNames = extractTableNames(schema);
-  const createStatements = splitStatements(schema).map(toTemporaryCreateTable);
-
   // Run each test case
   for (let i = 0; i < problem.testCases.length; i++) {
     const testCase = problem.testCases[i];
-    const conn = await evalPool.getConnection();
-
     try {
-      // Hard cap on how long any single statement in this test case may
-      // run, so one pathological submission can't tie up an eval
-      // connection indefinitely while up to ~100 people are submitting.
-      await conn.query("SET SESSION max_statement_time = 5");
-
-      for (const stmt of createStatements) {
-        await conn.query(stmt);
-      }
-      for (const stmt of splitStatements(testCase.sampleData)) {
-        await conn.query(stmt);
-      }
-
-      // Execute user statements; only the last one's result is graded
-      // (mirrors the previous SQLite-based behavior).
-      let lastResult;
-      for (const stmt of userStatements) {
-        const [rows] = await conn.query(stmt);
-        lastResult = rows;
-      }
+      const lastResult = await runQueryAgainstTestCase(evalPool, problem, testCase, userStatements);
 
       const isCorrect =
         JSON.stringify(lastResult) === JSON.stringify(testCase.expectedOutput);
@@ -499,22 +452,11 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
         error: err.message,
       });
       allTestCasesPassed = false;
-    } finally {
-      // Always leave the pooled connection clean before it's reused by an
-      // unrelated evaluate call - otherwise a leftover temp table could
-      // collide with (or shadow) one a future request tries to create.
-      for (const name of tableNames) {
-        try {
-          await conn.query(`DROP TEMPORARY TABLE IF EXISTS \`${name}\``);
-        } catch (dropErr) {
-          console.error("Error dropping temp table:", dropErr.message);
-        }
-      }
-      conn.release();
     }
   }
 
   const duration = Date.now() - start;
+  let bonusMarks = 0;
 
   // Handle submission if all test cases passed
   if (allTestCasesPassed) {
@@ -542,9 +484,16 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
 
       const userName = userRows[0].name;
 
+      const [config] = await pool.execute("SELECT start_time, end_time FROM config LIMIT 1");
+      const now = Date.now();
+      bonusMarks =
+        config.length > 0
+          ? computeEarlyBonus(problem.marks, new Date(config[0].start_time).getTime(), new Date(config[0].end_time).getTime(), now)
+          : 0;
+
       await pool.execute(
-        "INSERT INTO submissions (username, name, problem_id, marks, timestamp) VALUES (?, ?, ?, ?, UNIX_TIMESTAMP())",
-        [req.user.username, userName, problemId, problem.marks],
+        "INSERT INTO submissions (username, name, problem_id, marks, bonus_marks, timestamp) VALUES (?, ?, ?, ?, ?, UNIX_TIMESTAMP())",
+        [req.user.username, userName, problemId, problem.marks, bonusMarks],
       );
     } catch (dbErr) {
       console.error("Error saving submission:", dbErr.message);
@@ -567,6 +516,7 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
     correct: allTestCasesPassed,
     testResults,
     duration: `${duration}ms`,
+    ...(allTestCasesPassed && { marksAwarded: problem.marks, bonusMarks }),
   });
 });
 
@@ -577,8 +527,8 @@ app.get("/api/leaderboard", async (req, res) => {
       SELECT 
         username,
         name,
-        COUNT(DISTINCT problem_id) AS problems_solved, 
-        SUM(marks) AS score,
+        COUNT(DISTINCT problem_id) AS problems_solved,
+        SUM(marks + bonus_marks) AS score,
         MAX(timestamp) AS last_submission
       FROM 
         submissions
@@ -633,7 +583,7 @@ app.get("/api/admin/submissions", authenticateToken, requireAdmin, async (req, r
   try {
     const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 100, 1), 500);
     const [rows] = await pool.execute(
-      `SELECT id, username, name, problem_id, marks, timestamp FROM submissions ORDER BY id DESC LIMIT ${limit}`,
+      `SELECT id, username, name, problem_id, marks, bonus_marks, timestamp FROM submissions ORDER BY id DESC LIMIT ${limit}`,
     );
     const withTitles = rows.map((r) => ({
       ...r,
@@ -643,6 +593,44 @@ app.get("/api/admin/submissions", authenticateToken, requireAdmin, async (req, r
   } catch (err) {
     console.error("Error fetching admin submissions:", err.message);
     res.status(500).json({ error: "Failed to fetch submissions", details: err.message });
+  }
+});
+
+// Dumps every submission to a timestamped backup file, then wipes the
+// table - for clearing out test attempts before the real event. Always
+// backs up first so a mistaken reset (or a reset run too early) is
+// recoverable.
+app.post("/api/admin/submissions/reset", authenticateToken, requireAdmin, async (req, res) => {
+  try {
+    const [rows] = await pool.execute("SELECT * FROM submissions");
+
+    const backupDir = path.join(__dirname, "db", "backups");
+    fs.mkdirSync(backupDir, { recursive: true });
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+    const backupFileName = `submissions-${timestamp}.json`;
+    fs.writeFileSync(path.join(backupDir, backupFileName), JSON.stringify(rows, null, 2));
+
+    await pool.execute("TRUNCATE TABLE submissions");
+
+    logEvent({
+      type: "admin",
+      message: `Reset submissions (${rows.length} row(s) backed up to ${backupFileName})`,
+      username: req.user.username,
+      req,
+      metadata: { rowCount: rows.length, backupFile: backupFileName },
+    });
+
+    res.json({ message: "Submissions reset.", rowsBackedUp: rows.length, backupFile: backupFileName });
+  } catch (err) {
+    console.error("Error resetting submissions:", err.message);
+    logEvent({
+      type: "error",
+      level: "error",
+      message: `Failed to reset submissions: ${err.message}`,
+      username: req.user.username,
+      req,
+    });
+    res.status(500).json({ error: "Failed to reset submissions", details: err.message });
   }
 });
 
