@@ -1,0 +1,1655 @@
+[
+  {
+    "id": 96,
+    "title": "Managers with at Least 5 Direct Reports",
+    "description": "Write a query to find the names of managers who have at least 5 direct reports in the `employees` table. Use a self-join or a subquery.",
+    "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY, name TEXT, department TEXT, manager_id INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO employees (id, name, department, manager_id) VALUES (101, 'John', 'HR', NULL), (102, 'Dan', 'HR', 101), (103, 'James', 'HR', 101), (104, 'Amy', 'HR', 101), (105, 'Anne', 'HR', 101), (106, 'Ron', 'IT', 101);",
+        "expectedOutput": [
+          {
+            "name": "John"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO employees (id, name, department, manager_id) VALUES (201, 'Alice', 'IT', NULL), (202, 'Bob', 'IT', 201), (203, 'Charlie', 'IT', 201);",
+        "expectedOutput": []
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO employees (id, name, department, manager_id) VALUES (301,'Sam','Sales',NULL),(302,'A','Sales',301),(303,'B','Sales',301),(304,'C','Sales',301),(305,'D','Sales',301),(306,'E','Sales',301),(310,'Tim','IT',NULL),(311,'F','IT',310),(312,'G','IT',310),(313,'H','IT',310);",
+        "expectedOutput": [
+          {
+            "name": "Sam"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO employees (id, name, department, manager_id) VALUES (401,'Uma','HR',NULL),(402,'A','HR',401),(403,'B','HR',401),(404,'C','HR',401),(405,'D','HR',401);",
+        "expectedOutput": []
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 98,
+    "title": "High-Powered Marvel Teams",
+    "description": "Write a query to find Marvel teams where the average power level of their heroes is strictly greater than 85, AND the team has at least 2 heroes. Return the team name.",
+    "schema": "CREATE TABLE marvel_characters (id INTEGER PRIMARY KEY, name TEXT, team TEXT, power_level INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO marvel_characters (id, name, team, power_level) VALUES (1, 'Iron Man', 'Avengers', 90), (2, 'Thor', 'Avengers', 100), (3, 'Wolverine', 'X-Men', 80), (4, 'Daredevil', 'Defenders', 95);",
+        "expectedOutput": [
+          {
+            "team": "Avengers"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO marvel_characters (id, name, team, power_level) VALUES (5, 'Cyclops', 'X-Men', 88), (6, 'Jean Grey', 'X-Men', 95);",
+        "expectedOutput": [
+          {
+            "team": "X-Men"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO marvel_characters (id, name, team, power_level) VALUES (1,'StarLord','Guardians',90),(2,'Gamora','Guardians',88),(3,'BlackBolt','Inhumans',99);",
+        "expectedOutput": [
+          {
+            "team": "Guardians"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO marvel_characters (id, name, team, power_level) VALUES (1,'A','Eternals',85),(2,'B','Eternals',85);",
+        "expectedOutput": []
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 99,
+    "title": "Above Average Game Scores",
+    "description": "Write a query to find the `player_name` of all players who scored strictly higher than the overall average score of all players. Order the results alphabetically.",
+    "schema": "CREATE TABLE game_scores (id INTEGER PRIMARY KEY, player_name TEXT, score INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO game_scores (id, player_name, score) VALUES (1, 'Alice', 10), (2, 'Bob', 20), (3, 'Charlie', 60);",
+        "expectedOutput": [
+          {
+            "player_name": "Charlie"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO game_scores (id, player_name, score) VALUES (4, 'David', 100), (5, 'Eve', 120), (6, 'Frank', 80);",
+        "expectedOutput": [
+          {
+            "player_name": "Eve"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO game_scores (id, player_name, score) VALUES (1,'Amy',10),(2,'Ben',20),(3,'Cid',30);",
+        "expectedOutput": [
+          {
+            "player_name": "Cid"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO game_scores (id, player_name, score) VALUES (1,'Dee',50),(2,'Eli',50);",
+        "expectedOutput": []
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 100,
+    "title": "Outperforming Gryffindor",
+    "description": "Write a query to find the names of Hogwarts houses that have a strictly greater sum of `house_points` than the total house points of 'Gryffindor'.",
+    "schema": "CREATE TABLE hogwarts_students (id INTEGER PRIMARY KEY, name TEXT, house TEXT, house_points INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO hogwarts_students (id, name, house, house_points) VALUES (1, 'Harry', 'Gryffindor', 50), (2, 'Hermione', 'Gryffindor', 50), (3, 'Draco', 'Slytherin', 60), (4, 'Pansy', 'Slytherin', 60), (5, 'Luna', 'Ravenclaw', 30);",
+        "expectedOutput": [
+          {
+            "house": "Slytherin"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO hogwarts_students (id, name, house, house_points) VALUES (6, 'Ron', 'Gryffindor', 150), (7, 'Cedric', 'Hufflepuff', 200);",
+        "expectedOutput": [
+          {
+            "house": "Hufflepuff"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO hogwarts_students (id, name, house, house_points) VALUES (1,'A','Gryffindor',100),(2,'B','Gryffindor',100),(3,'C','Ravenclaw',250),(4,'D','Hufflepuff',150);",
+        "expectedOutput": [
+          {
+            "house": "Ravenclaw"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO hogwarts_students (id, name, house, house_points) VALUES (1,'A','Gryffindor',100);",
+        "expectedOutput": []
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 102,
+    "title": "Tree Node Types",
+    "description": "Write a query to report the type of each node in the tree. Output 'Root' if it has no parent, 'Inner' if it is a parent of at least one node, and 'Leaf' otherwise. Order by id.",
+    "schema": "CREATE TABLE tree (id INTEGER PRIMARY KEY, p_id INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO tree (id, p_id) VALUES (1, NULL), (2, 1), (3, 1), (4, 2), (5, 2);",
+        "expectedOutput": [
+          {
+            "id": 1,
+            "type": "Root"
+          },
+          {
+            "id": 2,
+            "type": "Inner"
+          },
+          {
+            "id": 3,
+            "type": "Leaf"
+          },
+          {
+            "id": 4,
+            "type": "Leaf"
+          },
+          {
+            "id": 5,
+            "type": "Leaf"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO tree (id, p_id) VALUES (1, NULL);",
+        "expectedOutput": [
+          {
+            "id": 1,
+            "type": "Root"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO tree (id, p_id) VALUES (1,NULL),(2,1),(3,1),(4,2),(5,3);",
+        "expectedOutput": [
+          {
+            "id": 1,
+            "type": "Root"
+          },
+          {
+            "id": 2,
+            "type": "Inner"
+          },
+          {
+            "id": 3,
+            "type": "Inner"
+          },
+          {
+            "id": 4,
+            "type": "Leaf"
+          },
+          {
+            "id": 5,
+            "type": "Leaf"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO tree (id, p_id) VALUES (1,NULL),(2,1);",
+        "expectedOutput": [
+          {
+            "id": 1,
+            "type": "Root"
+          },
+          {
+            "id": 2,
+            "type": "Leaf"
+          }
+        ]
+      }
+    ],
+    "marks": 12
+  },
+  {
+    "id": 103,
+    "title": "Subscription Pricing Tiers",
+    "description": "Categorize subscriptions: 'Premium' if fee > 50, 'Standard' if fee BETWEEN 20 AND 50, and 'Basic' if fee < 20. Count the number of users in each tier and order by the tier name alphabetically.",
+    "schema": "CREATE TABLE subscriptions (id INTEGER PRIMARY KEY, fee INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO subscriptions (id, fee) VALUES (1, 60), (2, 60), (3, 30), (4, 10);",
+        "expectedOutput": [
+          {
+            "tier": "Basic",
+            "user_count": 1
+          },
+          {
+            "tier": "Premium",
+            "user_count": 2
+          },
+          {
+            "tier": "Standard",
+            "user_count": 1
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO subscriptions (id, fee) VALUES (5, 15), (6, 25), (7, 45);",
+        "expectedOutput": [
+          {
+            "tier": "Basic",
+            "user_count": 1
+          },
+          {
+            "tier": "Standard",
+            "user_count": 2
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO subscriptions (id, fee) VALUES (8, 20), (9, 50), (10, 51), (11, 5);",
+        "expectedOutput": [
+          {
+            "tier": "Basic",
+            "user_count": 1
+          },
+          {
+            "tier": "Premium",
+            "user_count": 1
+          },
+          {
+            "tier": "Standard",
+            "user_count": 2
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO subscriptions (id, fee) VALUES (12, 100), (13, 200);",
+        "expectedOutput": [
+          {
+            "tier": "Premium",
+            "user_count": 2
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 104,
+    "title": "Specific Genre Triplets",
+    "description": "Write a query to find `genre`s from the `songs` table that have exactly 3 songs listed in the database.",
+    "schema": "CREATE TABLE songs (id INTEGER PRIMARY KEY, title TEXT, genre TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO songs (id, title, genre) VALUES (1, 'A', 'Rock'), (2, 'B', 'Rock'), (3, 'C', 'Rock'), (4, 'D', 'Pop'), (5, 'E', 'Pop');",
+        "expectedOutput": [
+          {
+            "genre": "Rock"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO songs (id, title, genre) VALUES (6, 'F', 'Jazz'), (7, 'G', 'Jazz'), (8, 'H', 'Jazz');",
+        "expectedOutput": [
+          {
+            "genre": "Jazz"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO songs (id, title, genre) VALUES (9, 'I', 'Blues'), (10, 'J', 'Blues'), (11, 'K', 'Blues'), (12, 'L', 'Classical'), (13, 'M', 'Classical'), (14, 'N', 'Metal'), (15, 'O', 'Metal'), (16, 'P', 'Metal'), (17, 'Q', 'Metal');",
+        "expectedOutput": [
+          {
+            "genre": "Blues"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO songs (id, title, genre) VALUES (18, 'R', 'Funk'), (19, 'S', 'Funk');",
+        "expectedOutput": []
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 105,
+    "title": "Slow Factions in Star Wars",
+    "description": "Using a NOT IN subquery, find all distinct `faction`s that have NEVER deployed a starship with a `max_speed` greater than 1000.",
+    "schema": "CREATE TABLE starships (ship_id INTEGER PRIMARY KEY, ship_name TEXT, faction TEXT, max_speed INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO starships (ship_id, ship_name, faction, max_speed) VALUES (1, 'X-Wing', 'Rebels', 1050), (2, 'Y-Wing', 'Rebels', 800), (3, 'TIE Fighter', 'Empire', 1200), (4, 'Cruiser', 'Republic', 900);",
+        "expectedOutput": [
+          {
+            "faction": "Republic"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO starships (ship_id, ship_name, faction, max_speed) VALUES (5, 'Fighter', 'Jedi', 1100), (6, 'Transport', 'Trade Federation', 700);",
+        "expectedOutput": [
+          {
+            "faction": "Trade Federation"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO starships (ship_id, ship_name, faction, max_speed) VALUES (7, 'Interceptor', 'Sith', 1500), (8, 'Shuttle', 'Sith', 900), (9, 'Cruiser', 'Resistance', 950), (10, 'Frigate', 'Resistance', 600);",
+        "expectedOutput": [
+          {
+            "faction": "Resistance"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO starships (ship_id, ship_name, faction, max_speed) VALUES (11, 'Star Destroyer', 'First Order', 2000);",
+        "expectedOutput": []
+      }
+    ],
+    "marks": 12
+  },
+  {
+    "id": 106,
+    "title": "Most Prolific Publishing Decade",
+    "description": "Write a query to find the decade (e.g., 1990, 2000) with the highest number of published books. Return the `decade` and `book_count`. Note: Calculate decade as (publication_year / 10) * 10.",
+    "schema": "CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT, publication_year INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO books (id, title, publication_year) VALUES (1, 'B1', 1995), (2, 'B2', 1998), (3, 'B3', 2005), (4, 'B4', 2008), (5, 'B5', 2001);",
+        "expectedOutput": [
+          {
+            "decade": 2000,
+            "book_count": 3
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO books (id, title, publication_year) VALUES (6, 'B6', 1982), (7, 'B7', 1985), (8, 'B8', 1989), (9, 'B9', 1999);",
+        "expectedOutput": [
+          {
+            "decade": 1980,
+            "book_count": 3
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO books (id, title, publication_year) VALUES (6, 'F', 1975), (7, 'G', 1976), (8, 'H', 1976), (9, 'I', 1983), (10, 'J', 1990);",
+        "expectedOutput": [
+          {
+            "decade": 1970,
+            "book_count": 3
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO books (id, title, publication_year) VALUES (11, 'K', 2015), (12, 'L', 2016), (13, 'M', 2016), (14, 'N', 2023);",
+        "expectedOutput": [
+          {
+            "decade": 2010,
+            "book_count": 3
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 107,
+    "title": "Top Earners",
+    "description": "Calculate total earnings (salary * months) for each employee. Find the maximum total earnings and the number of employees who have this maximum. Return `max_earnings` and `employee_count`.",
+    "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY, name TEXT, months INTEGER, salary INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO employees (id, name, months, salary) VALUES (1, 'A', 10, 2000), (2, 'B', 5, 1000), (3, 'C', 10, 2000);",
+        "expectedOutput": [
+          {
+            "max_earnings": 20000,
+            "employee_count": 2
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO employees (id, name, months, salary) VALUES (4, 'D', 12, 5000), (5, 'E', 6, 10000);",
+        "expectedOutput": [
+          {
+            "max_earnings": 60000,
+            "employee_count": 2
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO employees (id, name, months, salary) VALUES (4, 'Dan', 6, 3000), (5, 'Eve', 9, 2000), (6, 'Fay', 10, 1000);",
+        "expectedOutput": [
+          {
+            "max_earnings": 18000,
+            "employee_count": 2
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO employees (id, name, months, salary) VALUES (7, 'Gus', 5, 4000);",
+        "expectedOutput": [
+          {
+            "max_earnings": 20000,
+            "employee_count": 1
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 109,
+    "title": "Duplicate Emails",
+    "description": "Write a query to report all the duplicate emails. Use GROUP BY and HAVING to find emails that appear more than once in the `person` table.",
+    "schema": "CREATE TABLE person (id INTEGER PRIMARY KEY, email TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO person (id, email) VALUES (1, 'a@b.com'), (2, 'c@d.com'), (3, 'a@b.com');",
+        "expectedOutput": [
+          {
+            "email": "a@b.com"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO person (id, email) VALUES (1, 'test@test.com'), (2, 'test@test.com'), (3, 'hello@world.com');",
+        "expectedOutput": [
+          {
+            "email": "test@test.com"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO person (id, email) VALUES (1,'alice@example.com'),(2,'bob@example.com'),(3,'alice@example.com');",
+        "expectedOutput": [
+          {
+            "email": "alice@example.com"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO person (id, email) VALUES (1,'unique@test.com');",
+        "expectedOutput": []
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 110,
+    "title": "Revenue per Category",
+    "description": "Write a query to calculate the total revenue per product category by joining the `products` and `orders` tables. Return `category` and `total_revenue`, ordered alphabetically by category.",
+    "schema": "CREATE TABLE products (product_id INTEGER PRIMARY KEY, category TEXT); CREATE TABLE orders (order_id INTEGER, product_id INTEGER, amount INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO products (product_id, category) VALUES (1, 'Electronics'), (2, 'Books'); INSERT INTO orders (order_id, product_id, amount) VALUES (101, 1, 500), (102, 1, 300), (103, 2, 50);",
+        "expectedOutput": [
+          {
+            "category": "Books",
+            "total_revenue": 50
+          },
+          {
+            "category": "Electronics",
+            "total_revenue": 800
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO products (product_id, category) VALUES (3, 'Toys'); INSERT INTO orders (order_id, product_id, amount) VALUES (104, 3, 100), (105, 3, 250);",
+        "expectedOutput": [
+          {
+            "category": "Toys",
+            "total_revenue": 350
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO products (product_id, category) VALUES (10, 'Clothing'), (11, 'Toys'); INSERT INTO orders (order_id, product_id, amount) VALUES (201, 10, 150), (202, 10, 50), (203, 11, 300);",
+        "expectedOutput": [
+          {
+            "category": "Clothing",
+            "total_revenue": 200
+          },
+          {
+            "category": "Toys",
+            "total_revenue": 300
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO products (product_id, category) VALUES (20, 'Sports'); INSERT INTO orders (order_id, product_id, amount) VALUES (301, 20, 999);",
+        "expectedOutput": [
+          {
+            "category": "Sports",
+            "total_revenue": 999
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 111,
+    "title": "Top 2 Scorers Per Department",
+    "description": "Write a query to find the top 2 highest-paid employees in each department from the `employees` table, ordered by department and salary descending. Use window functions.",
+    "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT, salary REAL);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO employees (name, department, salary) VALUES ('Alice', 'Engineering', 95000), ('Bob', 'Engineering', 88000), ('Charlie', 'Engineering', 72000), ('Diana', 'HR', 65000), ('Eve', 'HR', 70000), ('Frank', 'HR', 60000);",
+        "expectedOutput": [
+          {
+            "name": "Alice",
+            "department": "Engineering",
+            "salary": 95000
+          },
+          {
+            "name": "Bob",
+            "department": "Engineering",
+            "salary": 88000
+          },
+          {
+            "name": "Eve",
+            "department": "HR",
+            "salary": 70000
+          },
+          {
+            "name": "Diana",
+            "department": "HR",
+            "salary": 65000
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO employees (name, department, salary) VALUES ('Grace', 'Sales', 80000), ('Hank', 'Sales', 75000), ('Ivy', 'Sales', 70000), ('Jack', 'Finance', 90000), ('Karen', 'Finance', 85000);",
+        "expectedOutput": [
+          {
+            "name": "Jack",
+            "department": "Finance",
+            "salary": 90000
+          },
+          {
+            "name": "Karen",
+            "department": "Finance",
+            "salary": 85000
+          },
+          {
+            "name": "Grace",
+            "department": "Sales",
+            "salary": 80000
+          },
+          {
+            "name": "Hank",
+            "department": "Sales",
+            "salary": 75000
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO employees (name, department, salary) VALUES ('Zoe', 'IT', 120000), ('Yara', 'IT', 110000), ('Xavier', 'IT', 90000), ('Walt', 'Ops', 60000);",
+        "expectedOutput": [
+          {
+            "name": "Zoe",
+            "department": "IT",
+            "salary": 120000
+          },
+          {
+            "name": "Yara",
+            "department": "IT",
+            "salary": 110000
+          },
+          {
+            "name": "Walt",
+            "department": "Ops",
+            "salary": 60000
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO employees (name, department, salary) VALUES ('Vic', 'Design', 75000);",
+        "expectedOutput": [
+          {
+            "name": "Vic",
+            "department": "Design",
+            "salary": 75000
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 114,
+    "title": "Customer Purchase Trend Classification",
+    "description": "Write a query to classify customers based on their purchase behaviour: 'Loyal' (3 or more orders AND total amount > 500), 'Occasional' (2 orders OR total between 200 and 500), 'One-Time' (exactly 1 order and total below 200) from the `orders` table.",
+    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, amount REAL);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer_name, amount) VALUES ('Alice', 200.00), ('Alice', 300.00), ('Alice', 150.00), ('Bob', 180.00), ('Bob', 220.00), ('Charlie', 90.00);",
+        "expectedOutput": [
+          {
+            "customer_name": "Alice",
+            "customer_type": "Loyal"
+          },
+          {
+            "customer_name": "Bob",
+            "customer_type": "Occasional"
+          },
+          {
+            "customer_name": "Charlie",
+            "customer_type": "One-Time"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer_name, amount) VALUES ('Diana', 600.00), ('Diana', 400.00), ('Diana', 300.00), ('Eve', 250.00), ('Eve', 300.00), ('Frank', 100.00);",
+        "expectedOutput": [
+          {
+            "customer_name": "Diana",
+            "customer_type": "Loyal"
+          },
+          {
+            "customer_name": "Eve",
+            "customer_type": "Occasional"
+          },
+          {
+            "customer_name": "Frank",
+            "customer_type": "One-Time"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO orders (customer_name, amount) VALUES ('Mia', 200.00), ('Mia', 200.00), ('Mia', 200.00), ('Mia', 200.00), ('Noah', 150.00);",
+        "expectedOutput": [
+          {
+            "customer_name": "Mia",
+            "customer_type": "Loyal"
+          },
+          {
+            "customer_name": "Noah",
+            "customer_type": "One-Time"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO orders (customer_name, amount) VALUES ('Owen', 20.00), ('Owen', 20.00);",
+        "expectedOutput": [
+          {
+            "customer_name": "Owen",
+            "customer_type": "Occasional"
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 115,
+    "title": "Score Distribution Across Grade Buckets",
+    "description": "Write a query to show the number of students in each score band: 'Distinction' (>=85), 'Merit' (70–84), 'Pass' (50–69), 'Fail' (<50) from the `students` table. Only include bands that have at least one student, ordered by band.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, score INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, score) VALUES ('Alice', 90), ('Bob', 75), ('Charlie', 55), ('Diana', 40), ('Eve', 88), ('Frank', 72);",
+        "expectedOutput": [
+          {
+            "band": "Distinction",
+            "student_count": 2
+          },
+          {
+            "band": "Fail",
+            "student_count": 1
+          },
+          {
+            "band": "Merit",
+            "student_count": 2
+          },
+          {
+            "band": "Pass",
+            "student_count": 1
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, score) VALUES ('Grace', 91), ('Hank', 85), ('Ivy', 48), ('Jack', 66), ('Karen', 79);",
+        "expectedOutput": [
+          {
+            "band": "Distinction",
+            "student_count": 2
+          },
+          {
+            "band": "Fail",
+            "student_count": 1
+          },
+          {
+            "band": "Merit",
+            "student_count": 1
+          },
+          {
+            "band": "Pass",
+            "student_count": 1
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO students (name, score) VALUES ('A', 90), ('B', 45), ('C', 60), ('D', 30);",
+        "expectedOutput": [
+          {
+            "band": "Distinction",
+            "student_count": 1
+          },
+          {
+            "band": "Fail",
+            "student_count": 2
+          },
+          {
+            "band": "Pass",
+            "student_count": 1
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO students (name, score) VALUES ('X', 95), ('Y', 88);",
+        "expectedOutput": [
+          {
+            "band": "Distinction",
+            "student_count": 2
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 116,
+    "title": "Rank Products by Revenue Within Category",
+    "description": "Write a query to rank products by their total sales amount within each category from the `sales` table. Show category, product name, total sales, and rank. Only show products ranked 1st or 2nd in their category.",
+    "schema": "CREATE TABLE sales (id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, category TEXT, amount REAL);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO sales (product_name, category, amount) VALUES ('Laptop', 'Electronics', 5000), ('Phone', 'Electronics', 3000), ('Tablet', 'Electronics', 1500), ('Sofa', 'Furniture', 2000), ('Chair', 'Furniture', 800), ('Desk', 'Furniture', 1200);",
+        "expectedOutput": [
+          {
+            "category": "Electronics",
+            "product_name": "Laptop",
+            "total_sales": 5000,
+            "rank": 1
+          },
+          {
+            "category": "Electronics",
+            "product_name": "Phone",
+            "total_sales": 3000,
+            "rank": 2
+          },
+          {
+            "category": "Furniture",
+            "product_name": "Sofa",
+            "total_sales": 2000,
+            "rank": 1
+          },
+          {
+            "category": "Furniture",
+            "product_name": "Desk",
+            "total_sales": 1200,
+            "rank": 2
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO sales (product_name, category, amount) VALUES ('Novel', 'Books', 300), ('Textbook', 'Books', 800), ('Comic', 'Books', 150), ('Treadmill', 'Sports', 1500), ('Dumbbell', 'Sports', 200), ('Yoga Mat', 'Sports', 400);",
+        "expectedOutput": [
+          {
+            "category": "Books",
+            "product_name": "Textbook",
+            "total_sales": 800,
+            "rank": 1
+          },
+          {
+            "category": "Books",
+            "product_name": "Novel",
+            "total_sales": 300,
+            "rank": 2
+          },
+          {
+            "category": "Sports",
+            "product_name": "Treadmill",
+            "total_sales": 1500,
+            "rank": 1
+          },
+          {
+            "category": "Sports",
+            "product_name": "Yoga Mat",
+            "total_sales": 400,
+            "rank": 2
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO sales (product_name, category, amount) VALUES ('ProductA', 'Grocery', 500), ('ProductB', 'Grocery', 300), ('ProductC', 'Grocery', 100), ('ProductD', 'Garden', 700);",
+        "expectedOutput": [
+          {
+            "category": "Garden",
+            "product_name": "ProductD",
+            "total_sales": 700,
+            "rank": 1
+          },
+          {
+            "category": "Grocery",
+            "product_name": "ProductA",
+            "total_sales": 500,
+            "rank": 1
+          },
+          {
+            "category": "Grocery",
+            "product_name": "ProductB",
+            "total_sales": 300,
+            "rank": 2
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO sales (product_name, category, amount) VALUES ('ProductE', 'Beauty', 999);",
+        "expectedOutput": [
+          {
+            "category": "Beauty",
+            "product_name": "ProductE",
+            "total_sales": 999,
+            "rank": 1
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 119,
+    "title": "Hogwarts House Cup Standings",
+    "description": "Write a query to rank Hogwarts houses by their total house points from the `hogwarts_students` table. Display the rank, house name, total points, and how many points behind the 1st place house each house is.",
+    "schema": "CREATE TABLE hogwarts_students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, house TEXT, house_points INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO hogwarts_students (name, house, house_points) VALUES ('Harry', 'Gryffindor', 200), ('Hermione', 'Gryffindor', 180), ('Draco', 'Slytherin', 150), ('Pansy', 'Slytherin', 120), ('Luna', 'Ravenclaw', 170), ('Cho', 'Ravenclaw', 160), ('Cedric', 'Hufflepuff', 140), ('Neville', 'Hufflepuff', 100);",
+        "expectedOutput": [
+          {
+            "rank": 1,
+            "house": "Gryffindor",
+            "total_points": 380,
+            "points_behind": 0
+          },
+          {
+            "rank": 2,
+            "house": "Ravenclaw",
+            "total_points": 330,
+            "points_behind": 50
+          },
+          {
+            "rank": 3,
+            "house": "Slytherin",
+            "total_points": 270,
+            "points_behind": 110
+          },
+          {
+            "rank": 4,
+            "house": "Hufflepuff",
+            "total_points": 240,
+            "points_behind": 140
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO hogwarts_students (name, house, house_points) VALUES ('Ron', 'Gryffindor', 100), ('Ginny', 'Gryffindor', 120), ('Blaise', 'Slytherin', 200), ('Theo', 'Slytherin', 180), ('Padma', 'Ravenclaw', 150), ('Hannah', 'Hufflepuff', 130);",
+        "expectedOutput": [
+          {
+            "rank": 1,
+            "house": "Slytherin",
+            "total_points": 380,
+            "points_behind": 0
+          },
+          {
+            "rank": 2,
+            "house": "Gryffindor",
+            "total_points": 220,
+            "points_behind": 160
+          },
+          {
+            "rank": 3,
+            "house": "Ravenclaw",
+            "total_points": 150,
+            "points_behind": 230
+          },
+          {
+            "rank": 4,
+            "house": "Hufflepuff",
+            "total_points": 130,
+            "points_behind": 250
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO hogwarts_students (id, name, house, house_points) VALUES (1,'A','Gryffindor',300),(2,'B','Slytherin',400),(3,'C','Ravenclaw',350),(4,'D','Hufflepuff',200);",
+        "expectedOutput": [
+          {
+            "rank": 1,
+            "house": "Slytherin",
+            "total_points": 400,
+            "points_behind": 0
+          },
+          {
+            "rank": 2,
+            "house": "Ravenclaw",
+            "total_points": 350,
+            "points_behind": 50
+          },
+          {
+            "rank": 3,
+            "house": "Gryffindor",
+            "total_points": 300,
+            "points_behind": 100
+          },
+          {
+            "rank": 4,
+            "house": "Hufflepuff",
+            "total_points": 200,
+            "points_behind": 200
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO hogwarts_students (id, name, house, house_points) VALUES (1,'X','Hufflepuff',500),(2,'Y','Hufflepuff',300);",
+        "expectedOutput": [
+          {
+            "rank": 1,
+            "house": "Hufflepuff",
+            "total_points": 800,
+            "points_behind": 0
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 120,
+    "title": "Identify High-Churn Product Categories",
+    "description": "Write a query to find product categories where more than 50% of the products have been returned (return_status = 'returned') from the `product_orders` table. Display the category, total products sold, total returned, and return percentage rounded to 2 decimal places.",
+    "schema": "CREATE TABLE product_orders (id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, category TEXT, return_status TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO product_orders (product_name, category, return_status) VALUES ('Laptop', 'Electronics', 'returned'), ('Phone', 'Electronics', 'kept'), ('Tablet', 'Electronics', 'returned'), ('Sofa', 'Furniture', 'returned'), ('Chair', 'Furniture', 'returned'), ('Desk', 'Furniture', 'kept'), ('Shirt', 'Clothing', 'kept'), ('Jeans', 'Clothing', 'kept');",
+        "expectedOutput": [
+          {
+            "category": "Electronics",
+            "total_sold": 3,
+            "total_returned": 2,
+            "return_percentage": 66.67
+          },
+          {
+            "category": "Furniture",
+            "total_sold": 3,
+            "total_returned": 2,
+            "return_percentage": 66.67
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO product_orders (product_name, category, return_status) VALUES ('Novel', 'Books', 'returned'), ('Textbook', 'Books', 'returned'), ('Comic', 'Books', 'kept'), ('Dumbbell', 'Sports', 'kept'), ('Yoga Mat', 'Sports', 'kept'), ('Treadmill', 'Sports', 'returned');",
+        "expectedOutput": [
+          {
+            "category": "Books",
+            "total_sold": 3,
+            "total_returned": 2,
+            "return_percentage": 66.67
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO product_orders (product_name, category, return_status) VALUES ('Mouse', 'Electronics', 'returned'), ('Keyboard', 'Electronics', 'kept'), ('Novel', 'Books', 'returned'), ('Comic', 'Books', 'returned'), ('Textbook', 'Books', 'returned'), ('Ball', 'Toys', 'kept'), ('Kite', 'Toys', 'kept');",
+        "expectedOutput": [
+          {
+            "category": "Books",
+            "total_sold": 3,
+            "total_returned": 3,
+            "return_percentage": 100
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO product_orders (product_name, category, return_status) VALUES ('Drone', 'Gadgets', 'returned');",
+        "expectedOutput": [
+          {
+            "category": "Gadgets",
+            "total_sold": 1,
+            "total_returned": 1,
+            "return_percentage": 100
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 121,
+    "title": "Department Top 3 Salaries",
+    "description": "Write a query to find employees who earn one of the top 3 unique salaries in their department from the `employees` table. Display the department, employee name, and salary. Order by department and salary descending. (Inspired by LeetCode #185)",
+    "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT, salary REAL);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO employees (name, department, salary) VALUES ('Alice', 'Engineering', 95000), ('Bob', 'Engineering', 88000), ('Charlie', 'Engineering', 88000), ('Diana', 'Engineering', 72000), ('Eve', 'Engineering', 60000), ('Frank', 'HR', 70000), ('Grace', 'HR', 65000), ('Hank', 'HR', 60000), ('Ivy', 'HR', 55000);",
+        "expectedOutput": [
+          {
+            "department": "Engineering",
+            "name": "Alice",
+            "salary": 95000
+          },
+          {
+            "department": "Engineering",
+            "name": "Bob",
+            "salary": 88000
+          },
+          {
+            "department": "Engineering",
+            "name": "Charlie",
+            "salary": 88000
+          },
+          {
+            "department": "Engineering",
+            "name": "Diana",
+            "salary": 72000
+          },
+          {
+            "department": "HR",
+            "name": "Frank",
+            "salary": 70000
+          },
+          {
+            "department": "HR",
+            "name": "Grace",
+            "salary": 65000
+          },
+          {
+            "department": "HR",
+            "name": "Hank",
+            "salary": 60000
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO employees (name, department, salary) VALUES ('Jack', 'Finance', 120000), ('Karen', 'Finance', 110000), ('Leo', 'Finance', 110000), ('Mia', 'Finance', 90000), ('Nina', 'Sales', 80000), ('Oscar', 'Sales', 75000);",
+        "expectedOutput": [
+          {
+            "department": "Finance",
+            "name": "Jack",
+            "salary": 120000
+          },
+          {
+            "department": "Finance",
+            "name": "Karen",
+            "salary": 110000
+          },
+          {
+            "department": "Finance",
+            "name": "Leo",
+            "salary": 110000
+          },
+          {
+            "department": "Finance",
+            "name": "Mia",
+            "salary": 90000
+          },
+          {
+            "department": "Sales",
+            "name": "Nina",
+            "salary": 80000
+          },
+          {
+            "department": "Sales",
+            "name": "Oscar",
+            "salary": 75000
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO employees (id, name, department, salary) VALUES (1,'A','HR',90000),(2,'B','HR',80000),(3,'C','HR',70000),(4,'D','HR',60000);",
+        "expectedOutput": [
+          {
+            "department": "HR",
+            "name": "A",
+            "salary": 90000
+          },
+          {
+            "department": "HR",
+            "name": "B",
+            "salary": 80000
+          },
+          {
+            "department": "HR",
+            "name": "C",
+            "salary": 70000
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO employees (id, name, department, salary) VALUES (1,'X','IT',75000);",
+        "expectedOutput": [
+          {
+            "department": "IT",
+            "name": "X",
+            "salary": 75000
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 122,
+    "title": "Trips Cancellation Rate",
+    "description": "Write a query to find the cancellation rate of requests made by unbanned users between '2025-01-01' and '2025-01-03' from the `trips` table and `users` table. The cancellation rate is the number of cancelled trips divided by total trips, rounded to 2 decimal places. Display the day and cancellation rate. (Inspired by LeetCode #262)",
+    "schema": "CREATE TABLE users (user_id INTEGER PRIMARY KEY, banned TEXT, role TEXT); CREATE TABLE trips (id INTEGER PRIMARY KEY AUTOINCREMENT, client_id INTEGER, driver_id INTEGER, status TEXT, request_date DATE);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO users (user_id, banned, role) VALUES (1, 'No', 'client'), (2, 'Yes', 'client'), (3, 'No', 'client'), (4, 'No', 'driver'); INSERT INTO trips (client_id, driver_id, status, request_date) VALUES (1, 4, 'completed', '2025-01-01'), (2, 4, 'cancelled_by_driver', '2025-01-01'), (3, 4, 'completed', '2025-01-01'), (1, 4, 'cancelled_by_client', '2025-01-02'), (3, 4, 'completed', '2025-01-02'), (3, 4, 'completed', '2025-01-03');",
+        "expectedOutput": [
+          {
+            "request_date": "2025-01-01",
+            "cancellation_rate": 0
+          },
+          {
+            "request_date": "2025-01-02",
+            "cancellation_rate": 0.5
+          },
+          {
+            "request_date": "2025-01-03",
+            "cancellation_rate": 0
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO users (user_id, banned, role) VALUES (1, 'No', 'client'), (2, 'Yes', 'client'), (3, 'No', 'client'), (4, 'No', 'driver'); INSERT INTO trips (client_id, driver_id, status, request_date) VALUES (1, 4, 'cancelled_by_client', '2025-01-01'), (1, 4, 'cancelled_by_client', '2025-01-02'), (3, 4, 'completed', '2025-01-02'), (3, 4, 'completed', '2025-01-03'), (3, 4, 'completed', '2025-01-03');",
+        "expectedOutput": [
+          {
+            "request_date": "2025-01-01",
+            "cancellation_rate": 1
+          },
+          {
+            "request_date": "2025-01-02",
+            "cancellation_rate": 0.5
+          },
+          {
+            "request_date": "2025-01-03",
+            "cancellation_rate": 0
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO users (user_id, banned, role) VALUES (1, 'No', 'client'), (2, 'Yes', 'client'); INSERT INTO trips (client_id, driver_id, status, request_date) VALUES (1, 10, 'completed', '2025-01-02'), (1, 10, 'cancelled_by_client', '2025-01-02'), (2, 10, 'cancelled_by_driver', '2025-01-02');",
+        "expectedOutput": [
+          {
+            "request_date": "2025-01-02",
+            "cancellation_rate": 0.5
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO users (user_id, banned, role) VALUES (1, 'No', 'client'); INSERT INTO trips (client_id, driver_id, status, request_date) VALUES (1, 20, 'cancelled_by_driver', '2025-01-03');",
+        "expectedOutput": [
+          {
+            "request_date": "2025-01-03",
+            "cancellation_rate": 1
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 123,
+    "title": "Stadium High Traffic",
+    "description": "Write a query to find all rows from the `stadium` table where 3 or more consecutive records all have a visitor count >= 100. Display id, visit_date, and visitor_count for qualifying rows ordered by visit_date. (Inspired by LeetCode #601)",
+    "schema": "CREATE TABLE stadium (id INTEGER PRIMARY KEY AUTOINCREMENT, visit_date DATE, visitor_count INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO stadium (visit_date, visitor_count) VALUES ('2025-01-01', 10), ('2025-01-02', 109), ('2025-01-03', 150), ('2025-01-04', 99), ('2025-01-05', 145), ('2025-01-06', 1455), ('2025-01-07', 199), ('2025-01-08', 188);",
+        "expectedOutput": [
+          {
+            "id": 5,
+            "visit_date": "2025-01-05",
+            "visitor_count": 145
+          },
+          {
+            "id": 6,
+            "visit_date": "2025-01-06",
+            "visitor_count": 1455
+          },
+          {
+            "id": 7,
+            "visit_date": "2025-01-07",
+            "visitor_count": 199
+          },
+          {
+            "id": 8,
+            "visit_date": "2025-01-08",
+            "visitor_count": 188
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO stadium (visit_date, visitor_count) VALUES ('2025-02-01', 200), ('2025-02-02', 300), ('2025-02-03', 400), ('2025-02-04', 50), ('2025-02-05', 120), ('2025-02-06', 80);",
+        "expectedOutput": [
+          {
+            "id": 1,
+            "visit_date": "2025-02-01",
+            "visitor_count": 200
+          },
+          {
+            "id": 2,
+            "visit_date": "2025-02-02",
+            "visitor_count": 300
+          },
+          {
+            "id": 3,
+            "visit_date": "2025-02-03",
+            "visitor_count": 400
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO stadium (visit_date, visitor_count) VALUES ('2025-08-01', 50), ('2025-08-02', 120), ('2025-08-03', 130), ('2025-08-04', 140), ('2025-08-05', 50), ('2025-08-06', 200), ('2025-08-07', 210);",
+        "expectedOutput": [
+          {
+            "id": 2,
+            "visit_date": "2025-08-02",
+            "visitor_count": 120
+          },
+          {
+            "id": 3,
+            "visit_date": "2025-08-03",
+            "visitor_count": 130
+          },
+          {
+            "id": 4,
+            "visit_date": "2025-08-04",
+            "visitor_count": 140
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO stadium (visit_date, visitor_count) VALUES ('2025-09-01', 100), ('2025-09-02', 100), ('2025-09-03', 100), ('2025-09-04', 100);",
+        "expectedOutput": [
+          {
+            "id": 1,
+            "visit_date": "2025-09-01",
+            "visitor_count": 100
+          },
+          {
+            "id": 2,
+            "visit_date": "2025-09-02",
+            "visitor_count": 100
+          },
+          {
+            "id": 3,
+            "visit_date": "2025-09-03",
+            "visitor_count": 100
+          },
+          {
+            "id": 4,
+            "visit_date": "2025-09-04",
+            "visitor_count": 100
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 126,
+    "title": "Interview Aggregate Stats",
+    "description": "Write a query to report the total number of contest submissions, total accepted submissions, and total views for each interviewer from the `contests`, `challenges`, and `view_stats` tables. Only include interviewers with at least one submission. Order by total_submissions descending, then interviewer_id ascending. (Inspired by HackerRank Interviews)",
+    "schema": "CREATE TABLE contests (contest_id INTEGER PRIMARY KEY, interviewer_id INTEGER, contest_name TEXT); CREATE TABLE challenges (challenge_id INTEGER PRIMARY KEY, contest_id INTEGER); CREATE TABLE view_stats (challenge_id INTEGER, total_views INTEGER, total_submissions INTEGER, total_accepted INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO contests VALUES (1, 101, 'Contest A'), (2, 102, 'Contest B'); INSERT INTO challenges VALUES (10, 1), (11, 1), (12, 2); INSERT INTO view_stats VALUES (10, 500, 200, 150), (11, 300, 100, 80), (12, 400, 180, 120);",
+        "expectedOutput": [
+          {
+            "interviewer_id": 101,
+            "total_submissions": 300,
+            "total_accepted": 230,
+            "total_views": 800
+          },
+          {
+            "interviewer_id": 102,
+            "total_submissions": 180,
+            "total_accepted": 120,
+            "total_views": 400
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO contests VALUES (3, 103, 'Contest C'), (4, 104, 'Contest D'); INSERT INTO challenges VALUES (13, 3), (14, 4), (15, 4); INSERT INTO view_stats VALUES (13, 600, 250, 200), (14, 100, 50, 30), (15, 200, 120, 90);",
+        "expectedOutput": [
+          {
+            "interviewer_id": 103,
+            "total_submissions": 250,
+            "total_accepted": 200,
+            "total_views": 600
+          },
+          {
+            "interviewer_id": 104,
+            "total_submissions": 170,
+            "total_accepted": 120,
+            "total_views": 300
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO contests VALUES (5, 105, 'Contest E'); INSERT INTO challenges VALUES (16, 5), (17, 5); INSERT INTO view_stats VALUES (16, 200, 100, 80), (17, 300, 150, 120);",
+        "expectedOutput": [
+          {
+            "interviewer_id": 105,
+            "total_submissions": 250,
+            "total_accepted": 200,
+            "total_views": 500
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO contests VALUES (6, 106, 'Contest F'); INSERT INTO challenges VALUES (18, 6); INSERT INTO view_stats VALUES (18, 0, 0, 0);",
+        "expectedOutput": []
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 127,
+    "title": "15 Days of Learning SQL",
+    "description": "Write a query to find, for each day from the first to the last submission date, the number of distinct hackers who made at least one submission each day up to and including that day, and the hacker_id and name of the hacker with the most submissions on that day (lowest hacker_id if tied). Use the `submissions` and `hackers` tables. Order by submission_date. (Inspired by HackerRank 15 Days of Learning SQL)",
+    "schema": "CREATE TABLE hackers (hacker_id INTEGER PRIMARY KEY, name TEXT); CREATE TABLE submissions (submission_id INTEGER PRIMARY KEY, hacker_id INTEGER, submission_date DATE);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO hackers VALUES (1, 'Alice'), (2, 'Bob'), (3, 'Charlie'); INSERT INTO submissions VALUES (101, 1, '2025-01-01'), (102, 2, '2025-01-01'), (103, 1, '2025-01-02'), (104, 3, '2025-01-02'), (105, 1, '2025-01-03'), (106, 2, '2025-01-03'), (107, 3, '2025-01-03');",
+        "expectedOutput": [
+          {
+            "submission_date": "2025-01-01",
+            "unique_hackers": 2,
+            "top_hacker_id": 1,
+            "top_hacker_name": "Alice"
+          },
+          {
+            "submission_date": "2025-01-02",
+            "unique_hackers": 1,
+            "top_hacker_id": 1,
+            "top_hacker_name": "Alice"
+          },
+          {
+            "submission_date": "2025-01-03",
+            "unique_hackers": 1,
+            "top_hacker_id": 1,
+            "top_hacker_name": "Alice"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO hackers VALUES (1, 'Alice'), (2, 'Bob'); INSERT INTO submissions VALUES (101, 1, '2025-02-01'), (102, 2, '2025-02-01'), (103, 2, '2025-02-01'), (104, 1, '2025-02-02'), (105, 2, '2025-02-02'), (106, 2, '2025-02-02');",
+        "expectedOutput": [
+          {
+            "submission_date": "2025-02-01",
+            "unique_hackers": 2,
+            "top_hacker_id": 2,
+            "top_hacker_name": "Bob"
+          },
+          {
+            "submission_date": "2025-02-02",
+            "unique_hackers": 2,
+            "top_hacker_id": 2,
+            "top_hacker_name": "Bob"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO hackers VALUES (1, 'Alice'), (2, 'Bob'); INSERT INTO submissions VALUES (1, 1, '2025-03-01'), (2, 2, '2025-03-01'), (3, 1, '2025-03-02'), (4, 2, '2025-03-02');",
+        "expectedOutput": [
+          {
+            "submission_date": "2025-03-01",
+            "unique_hackers": 2,
+            "top_hacker_id": 1,
+            "top_hacker_name": "Alice"
+          },
+          {
+            "submission_date": "2025-03-02",
+            "unique_hackers": 2,
+            "top_hacker_id": 1,
+            "top_hacker_name": "Alice"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO hackers VALUES (1, 'Zoe'), (2, 'Max'); INSERT INTO submissions VALUES (1, 2, '2025-04-01'), (2, 2, '2025-04-01'), (3, 1, '2025-04-01');",
+        "expectedOutput": [
+          {
+            "submission_date": "2025-04-01",
+            "unique_hackers": 2,
+            "top_hacker_id": 2,
+            "top_hacker_name": "Max"
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 128,
+    "title": "SQL Project Planning",
+    "description": "Write a query to find all projects from the `projects` table where each project is a set of consecutive dates with no gaps. A new project starts whenever there is a gap of more than 1 day. Display project_start and project_end dates, ordered by project duration ascending, then project_start ascending. (Inspired by HackerRank SQL Project Planning)",
+    "schema": "CREATE TABLE projects (task_date DATE PRIMARY KEY);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO projects VALUES ('2025-01-01'), ('2025-01-02'), ('2025-01-03'), ('2025-01-05'), ('2025-01-06'), ('2025-01-10');",
+        "expectedOutput": [
+          {
+            "project_start": "2025-01-10",
+            "project_end": "2025-01-10"
+          },
+          {
+            "project_start": "2025-01-05",
+            "project_end": "2025-01-06"
+          },
+          {
+            "project_start": "2025-01-01",
+            "project_end": "2025-01-03"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO projects VALUES ('2025-03-01'), ('2025-03-02'), ('2025-03-05'), ('2025-03-06'), ('2025-03-07'), ('2025-03-08');",
+        "expectedOutput": [
+          {
+            "project_start": "2025-03-01",
+            "project_end": "2025-03-02"
+          },
+          {
+            "project_start": "2025-03-05",
+            "project_end": "2025-03-08"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO projects VALUES ('2025-05-01'), ('2025-05-02'), ('2025-05-04'), ('2025-05-05'), ('2025-05-06');",
+        "expectedOutput": [
+          {
+            "project_start": "2025-05-01",
+            "project_end": "2025-05-02"
+          },
+          {
+            "project_start": "2025-05-04",
+            "project_end": "2025-05-06"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO projects VALUES ('2025-06-15');",
+        "expectedOutput": [
+          {
+            "project_start": "2025-06-15",
+            "project_end": "2025-06-15"
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 129,
+    "title": "Friend Requests Acceptance Rate",
+    "description": "Write a query to calculate the overall acceptance rate of friend requests rounded to 2 decimal places from the `friend_requests` and `request_accepted` tables. The rate is total accepted pairs divided by total requests sent. Treat each unique (sender, receiver) pair as one request and one acceptance. (Inspired by LeetCode #597)",
+    "schema": "CREATE TABLE friend_requests (sender_id INTEGER, receiver_id INTEGER); CREATE TABLE request_accepted (requester_id INTEGER, accepter_id INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO friend_requests VALUES (1, 2), (1, 3), (2, 3), (3, 4); INSERT INTO request_accepted VALUES (1, 2), (2, 3);",
+        "expectedOutput": [
+          {
+            "acceptance_rate": 0.5
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO friend_requests VALUES (1, 2), (1, 3), (2, 4); INSERT INTO request_accepted VALUES (1, 2), (1, 3), (2, 4);",
+        "expectedOutput": [
+          {
+            "acceptance_rate": 1
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sampleData": "INSERT INTO friend_requests VALUES (1, 2), (2, 3); INSERT INTO request_accepted VALUES (1, 2);",
+        "expectedOutput": [
+          {
+            "acceptance_rate": 0.5
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sampleData": "INSERT INTO friend_requests VALUES (1, 2); INSERT INTO request_accepted VALUES (1, 2);",
+        "expectedOutput": [
+          {
+            "acceptance_rate": 1
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  }
+]
