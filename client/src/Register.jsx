@@ -5,6 +5,7 @@ import axios from "axios";
 function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -98,7 +99,7 @@ function Register() {
               </label>
               <div className='relative'>
                 <input
-                  type='password'
+                  type={showPassword ? 'text' : 'password'}
                   id='password'
                   aria-label='Password'
                   className='w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md'
@@ -109,9 +110,12 @@ function Register() {
                 />
                 <button
                   type='button'
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  aria-pressed={showPassword}
                   className='absolute inset-y-0 right-0 px-3 py-2 text-gray-400'
                 >
-                  <i className='fas fa-eye'></i>
+                  <i className={showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'}></i>
                 </button>
               </div>
             </div>
@@ -132,13 +136,14 @@ function Register() {
               </a>
             </p>
             <p className='text-center text-gray-400'>
-              View ACM IDs from{' '}
+              View ACM IDs from the{' '}
               <a
                 target="_blank"
+                rel="noreferrer"
                 href='https://ioit.acm.org/membership/status'
                 className='text-blue-400 hover:underline'
               >
-                Here
+                ACM membership status page
               </a>
               .
             </p>

@@ -2,6 +2,19 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaSpinner, FaExclamationTriangle } from 'react-icons/fa';
 
+const DATE_FORMAT_OPTIONS = {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+  hour12: true,
+};
+
+const formatDate = (date) =>
+  new Date(date).toLocaleString(undefined, DATE_FORMAT_OPTIONS);
+
 function LeaderBoard() {
   const [leaderboard, setLeaderboard] = useState([]);
   const [error, setError] = useState(null);
@@ -9,13 +22,15 @@ function LeaderBoard() {
   const [lastRefreshed, setLastRefreshed] = useState(null);
 
   useEffect(() => {
+    let cancelled = false;
+
     const fetchLeaderboard = async () => {
       try {
         setLoading(true);
         setError(null);
         const response = await axios.get('/api/leaderboard');
 
-        // console.log('Leaderboard Data:', response.data);
+        if (cancelled) return;
 
         if (Array.isArray(response.data)) {
           setLeaderboard(response.data);
@@ -24,30 +39,24 @@ function LeaderBoard() {
           throw new Error('Unexpected response format');
         }
       } catch (err) {
+        if (cancelled) return;
         console.error('Error fetching leaderboard:', err);
         const message =
           err.response?.data?.error || 'Failed to fetch leaderboard.';
         setError(message);
       } finally {
+        // Always reset regardless of `cancelled` - setting state on an
+        // already-unmounted component is a harmless no-op in React 18.
         setLoading(false);
       }
     };
 
     fetchLeaderboard();
-  }, []);
 
-  function formatDate(date) {
-    const options = {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-      hour12: true,
+    return () => {
+      cancelled = true;
     };
-    return new Date(date).toLocaleString(undefined, options);
-  }
+  }, []);
 
   return (
     <div className='w-full min-h-screen bg-neutral-950 text-white py-20'>
@@ -134,16 +143,9 @@ function LeaderBoard() {
                 Platform designed and developed by{' '}
                 <a
                   className='text-blue-500 hover:underline'
-                  href='https://github.com/swarooppatilx'
+                  href='https://github.com/ioit-acm'
                 >
-                  Swaroop Patil
-                </a>{' '}
-                with{' '}
-                <a
-                  className='text-blue-500 hover:underline'
-                  href='https://adimail.github.io'
-                >
-                  Aditya Godse
+                  IOIT ACM Web Team
                 </a>
               </p>
             </div>

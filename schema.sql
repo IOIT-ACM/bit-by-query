@@ -14,6 +14,44 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+--
+-- Table structure for table 'config' times are in UTC time
+--
+DROP TABLE IF EXISTS `config`;
+CREATE TABLE `config` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `start_time` TIMESTAMP NOT NULL,
+  `end_time` TIMESTAMP NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table 'admins'
+--
+DROP TABLE IF EXISTS `admins`;
+CREATE TABLE `admins` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL REFERENCES users(id),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `event_logs`
+--
+
+DROP TABLE IF EXISTS `event_logs`;
+CREATE TABLE `event_logs` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `type` enum('auth','admin','error') NOT NULL,
+  `level` enum('info','warn','error') NOT NULL DEFAULT 'info',
+  `message` text NOT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `ip_address` varchar(64) DEFAULT NULL,
+  `metadata` text DEFAULT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_event_logs_type_created` (`type`, `created_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Table structure for table `submissions`
@@ -29,6 +67,7 @@ CREATE TABLE `submissions` (
   `timestamp` int DEFAULT NULL,
   `name` text COLLATE utf8mb4_unicode_ci,
   `marks` int DEFAULT NULL,
+  `bonus_marks` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

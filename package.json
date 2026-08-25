@@ -1,23 +1,22 @@
 {
   "name": "sql-competition-backend",
   "version": "1.0.0",
-  "description": "Backend for SQL competition using in-memory SQLite",
+  "description": "Backend for SQL competition, evaluating submissions against temporary MySQL tables",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
     "build": "cd client && npm install && npm run build",
-    "local": "cd client && npm run build && cd .. && npm run dev"
+    "local": "cd client && npm run build && cd .. && npm run dev",
+    "setup": "node scripts/setup.mjs"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.0",
-    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.18.0",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.12.0",
-    "sqlite3": "^5.1.0"
+    "mysql2": "^3.12.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
