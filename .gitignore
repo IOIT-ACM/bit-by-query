@@ -45,9 +45,3 @@ coverage/
 
 # Submission backups (created by the admin panel's reset button)
 db/backups/
-
-# Competition answer keys - never commit these
-SOLUTIONS.md
-SOLUTIONS-unused-hard-pool.md
-# also embeds every solution query directly in its source
-scripts/generate-solutions.js
