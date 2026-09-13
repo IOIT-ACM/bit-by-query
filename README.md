@@ -54,3 +54,7 @@ npm start   # or: npm run dev
 ├── hashPassword.js            # CLI: hash a password for manually seeding a user
 └── README.md
 ```
+
+## License
+
+[MIT](LICENSE) © 2026 AISSMS IOIT ACM Student Chapter
